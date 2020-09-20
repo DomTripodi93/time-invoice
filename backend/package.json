@@ -1,0 +1,54 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "local.js",
+  "scripts": {
+    "lint": "eslint app.js",
+    "start": "nodemon src/local.js",
+    "test": "mocha tests/**/*Tests.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^5.8.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.14.0",
+    "mocha": "^8.0.1",
+    "nodemon": "^2.0.4",
+    "serverless": "^1.16.1",
+    "should": "^13.2.3",
+    "sinon": "^7.2.2",
+    "supertest": "^3.3.0"
+  },
+  "dependencies": {
+    "bcrypt": "^5.0.0",
+    "body-parser": "^1.19.0",
+    "dependencies": "0.0.1",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.9.25",
+    "mongoose-sequence": "^5.2.2",
+    "mongoose-unique-validator": "^2.0.3"
+  },
+  "nodemonConfig": {
+    "restartable": "rs",
+    "ignore": [
+      "node_modules/**/node_modules"
+    ],
+    "delay": "2500",
+    "env": {
+      "NODE_ENV": "development",
+      "PORT": 4000
+    }
+  },
+  "resolutions": {
+    "minimist": "^1.2.3",
+    "lodash": "^4.17.12",
+    "marked": "^0.7.0",
+    "dot-prop": "^5.1.1",
+    "serialize-javascript": "^3.1.0",
+    "bl": "^4.0.3",
+    "node-fetch": "2.6.1"
+  }
+}
