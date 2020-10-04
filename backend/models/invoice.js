@@ -1,17 +1,16 @@
 const mongoose = require('mongoose');
-const uniqueValidator = require("mongoose-unique-validator");
 
 const { Schema } = mongoose;
 
 const InvoiceModel = new Schema(
     {
-        userId: { type: String, required: true, unique: true },
-        invoiceNumber: { type: Number},
-        hours: { type: Number},
+        userId: { type: mongoose.Schema.Types.ObjectId, required: true, unique: false },
+        invoiceNumber: { type: Number, required: true, unique: false },
+        hours: { type: Number },
         invoiced: { type: Boolean }
     }
 );
 
-userModel.plugin(uniqueValidator);
+objectiveModel.index({ userId: 1, invoiceNumber: 1 }, { unique: true });
 
 module.exports = mongoose.model('Invoice', InvoiceModel);

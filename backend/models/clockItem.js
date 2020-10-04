@@ -5,16 +5,16 @@ const { Schema } = mongoose;
 
 const clockItemModel = new Schema(
     {
-        userId: { type: String, required: true, unique: true },
-        timeId: { type: String },
+        userId: { type: mongoose.Schema.Types.ObjectId, required: true, unique: false },
+        timeId: { type: String, required: true, unique: false  },
         effect: { type: String, required: true },
-        timeFor: { type: String },
         time: { type: Date, required: true },
+        timeFor: { type: String },
         hours: { type: Number},
         invoiced: { type: Boolean }
     }
 );
 
-userModel.plugin(uniqueValidator);
+objectiveModel.index({ userId: 1, timeId: 1 }, { unique: true });
 
 module.exports = mongoose.model('Clock Item', clockItemModel);
