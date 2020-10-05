@@ -83,34 +83,6 @@ function ClockItemController(ClockItem) {
         });
     }
 
-    function changeInvoiced(req, res) {
-        let processed = 0;
-        req.body.invoiced.forEach(id => {
-            processed++
-            let query = {
-                userId: req.userId,
-                _id: id
-            }
-            ClockItem.find(query, (err, clockItems) => {
-                if (err) {
-                    return res.send(err);
-                }
-                let clockItemForUpdate = clockItems[0].toObject();
-                clockItemForUpdate.invoiced = req.params.invoiced
-                ClockItem.updateOne(query, clockItemForUpdate)
-                    .then(result => {
-                        if (processed === req.body.invoiced.length){
-                            if (result.nModified > 0) {
-                                return res.status(200).json({ message: "Update Successful" });
-                            } else {
-                                return res.status(500).json({ message: "No Changes" });
-                            }
-                        }
-                    });
-            });
-        });
-    }
-
     function deleteTime(req, res) {
         const query = {
             _id: req.params._id
@@ -126,7 +98,7 @@ function ClockItemController(ClockItem) {
         );
     }
 
-    return { post, getByPeriod, getByDay, put, changeInvoiced, deleteTime }
+    return { post, getByPeriod, getByDay, put, deleteTime }
 }
 
 module.exports = ClockItemController;

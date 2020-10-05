@@ -1,17 +1,37 @@
 const autoMapper = require("../middleware/autoMapper");
 
-function InvoiceController(Invoice) {
+function InvoiceController(Invoice, ClockItem) {
 
     function post(req, res) {
-        const invoice = new Invoice(req.body);
-        invoice.userId = req.userId;
-        invoice.date = dateRegulator(invoice.date);
-        invoice.save((err) => {
-            if (err) {
-                return res.send(err);
+        const invoice = new Invoice(req.body.invoice);
+        let processed = 0;
+        req.body.invoiced.forEach(id => {
+            processed++
+            let query = {
+                userId: req.userId,
+                _id: id
             }
-            res.status(201);
-            return res.json(invoice);
+            ClockItem.find(query, (err, clockItems) => {
+                if (err) {
+                    return res.send(err);
+                }
+                let clockItemForUpdate = clockItems[0].toObject();
+                clockItemForUpdate.invoiced = true;
+                ClockItem.updateOne(query, clockItemForUpdate)
+                    .then(() => {
+                        if (processed === req.body.invoiced.length){
+                            invoice.userId = req.userId;
+                            invoice.date = dateRegulator(invoice.date);
+                            invoice.save((err) => {
+                                if (err) {
+                                    return res.send(err);
+                                }
+                                res.status(201);
+                                return res.json(invoice);
+                            });
+                        }
+                    });
+            });
         });
     };
 
@@ -83,18 +103,38 @@ function InvoiceController(Invoice) {
     }
 
     function deleteTime(req, res) {
-        const query = {
-            _id: req.params._id
-        }
-        Invoice.deleteOne(query).then(
-            result => {
-                if (result.n > 0) {
-                    return res.status(200).json({ message: "Deletion successful!" });
-                } else {
-                    return res.status(500).json({ message: "Cannot Delete" });
-                }
+        let processed = 0;
+        req.body.invoiced.forEach(id => {
+            processed++
+            let query = {
+                userId: req.userId,
+                _id: id
             }
-        );
+            ClockItem.find(query, (err, clockItems) => {
+                if (err) {
+                    return res.send(err);
+                }
+                let clockItemForUpdate = clockItems[0].toObject();
+                clockItemForUpdate.invoiced = false;
+                ClockItem.updateOne(query, clockItemForUpdate)
+                    .then(() => {
+                        if (processed === req.body.invoiced.length){
+                            const invoiceQuery = {
+                                _id: req.params._id
+                            }
+                            Invoice.deleteOne(invoiceQuery).then(
+                                result => {
+                                    if (result.n > 0) {
+                                        return res.status(200).json({ message: "Deletion successful!" });
+                                    } else {
+                                        return res.status(500).json({ message: "Cannot Delete" });
+                                    }
+                                }
+                            );
+                        }
+                    });
+            });
+        });
     }
 
     return { post, getByPeriod, getByNumber, put, deleteTime }

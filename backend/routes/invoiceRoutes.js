@@ -3,9 +3,9 @@ const express = require("express");
 const checkAuth = require("../middleware/checkAuth");
 const InvoiceController = require("../controllers/invoiceController");
 
-function routes(Invoice){
+function routes(Invoice, ClockItem){
     const router = express.Router();
-    const controller = InvoiceController(Invoice);
+    const controller = InvoiceController(Invoice, ClockItem);
 
     router.route("")
         .post(checkAuth, controller.post);
@@ -18,7 +18,9 @@ function routes(Invoice){
     
     router.route("/:_id")
         .put(checkAuth, controller.put)
-        .delete(checkAuth, controller.deleteInvoice);
+    
+    router.route("/delete/:_id")
+        .put(checkAuth, controller.deleteInvoice);
 
     return router;
 }
