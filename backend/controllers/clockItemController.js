@@ -6,7 +6,6 @@ function ClockItemController(ClockItem) {
         const clockItem = new ClockItem(req.body);
         clockItem.userId = req.rootId;
         clockItem.date = dateRegulator(clockItem.date);
-        clockItem.status = "ClockItemd"
         clockItem.save((err) => {
             if (err) {
                 return res.send(err);
@@ -83,7 +82,22 @@ function ClockItemController(ClockItem) {
         });
     }
 
-    return { post, getByPeriod, getByDay, put }
+    function deleteTime(req, res) {
+        const query = {
+            _id: req.params._id
+        }
+        ClockItem.deleteOne(query).then(
+            result => {
+                if (result.n > 0) {
+                    return res.status(200).json({ message: "Deletion successful!" });
+                } else {
+                    return res.status(500).json({ message: "Cannot Delete" });
+                }
+            }
+        );
+    }
+
+    return { post, getByPeriod, getByDay, put, deleteTime }
 }
 
 module.exports = ClockItemController;

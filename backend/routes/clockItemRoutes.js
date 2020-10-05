@@ -1,14 +1,24 @@
 const express = require("express");
 
-const userController = require("../controllers/userController");
 const checkAuth = require("../middleware/checkAuth");
+const ClockItemController = require("../controllers/clockItemController");
 
 function routes(ClockItem){
     const router = express.Router();
-    const controller = userController(User);
+    const controller = ClockItemController(ClockItem);
 
     router.route("")
-        .get(checkAuth, controller.getUserData);
+        .post(checkAuth, controller.post);
+
+    router.route("/byDate/:date")
+        .get(checkAuth, controller.getByDay);
+
+    router.route("/byDateRange/:startDate&:endDate")
+        .get(checkAuth, controller.getByPeriod);
+    
+    router.route("/:_id")
+        .put(checkAuth, controller.put)
+        .delete(checkAuth, controller.deleteTime);
 
     return router;
 }
