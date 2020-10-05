@@ -62,13 +62,14 @@ function InvoiceController(Invoice) {
 
     function put(req, res) {
         const query = {
+            userId: req.userId,
             _id: req.params._id
         }
-        Invoice.find(query, (err, users) => {
+        Invoice.find(query, (err, invoices) => {
             if (err) {
                 return res.send(err);
             }
-            let invoiceForUpdate = users[0].toObject();
+            let invoiceForUpdate = invoices[0].toObject();
             invoiceForUpdate = autoMapper(invoiceForUpdate, req.body);
             Invoice.updateOne(query, invoiceForUpdate)
                 .then(result => {

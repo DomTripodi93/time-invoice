@@ -63,13 +63,14 @@ function ClockItemController(ClockItem) {
 
     function put(req, res) {
         const query = {
+            userId: req.userId,
             _id: req.params._id
         }
-        ClockItem.find(query, (err, users) => {
+        ClockItem.find(query, (err, clockItems) => {
             if (err) {
                 return res.send(err);
             }
-            let clockItemForUpdate = users[0].toObject();
+            let clockItemForUpdate = clockItems[0].toObject();
             clockItemForUpdate = autoMapper(clockItemForUpdate, req.body);
             ClockItem.updateOne(query, clockItemForUpdate)
                 .then(result => {
@@ -79,6 +80,34 @@ function ClockItemController(ClockItem) {
                         return res.status(500).json({ message: "No Changes" });
                     }
                 });
+        });
+    }
+
+    function changeInvoiced(req, res) {
+        let processed = 0;
+        req.body.invoiced.forEach(id => {
+            processed++
+            let query = {
+                userId: req.userId,
+                _id: id
+            }
+            ClockItem.find(query, (err, clockItems) => {
+                if (err) {
+                    return res.send(err);
+                }
+                let clockItemForUpdate = clockItems[0].toObject();
+                clockItemForUpdate.invoiced = req.params.invoiced
+                ClockItem.updateOne(query, clockItemForUpdate)
+                    .then(result => {
+                        if (processed === req.body.invoiced.length){
+                            if (result.nModified > 0) {
+                                return res.status(200).json({ message: "Update Successful" });
+                            } else {
+                                return res.status(500).json({ message: "No Changes" });
+                            }
+                        }
+                    });
+            });
         });
     }
 
@@ -97,7 +126,7 @@ function ClockItemController(ClockItem) {
         );
     }
 
-    return { post, getByPeriod, getByDay, put, deleteTime }
+    return { post, getByPeriod, getByDay, put, changeInvoiced, deleteTime }
 }
 
 module.exports = ClockItemController;

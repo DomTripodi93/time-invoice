@@ -1,6 +1,7 @@
 const express = require("express");
 
 const checkAuth = require("../middleware/checkAuth");
+const InvoiceController = require("../controllers/invoiceController");
 
 function routes(Invoice){
     const router = express.Router();

@@ -15,6 +15,9 @@ function routes(ClockItem){
 
     router.route("/byDateRange/:startDate&:endDate")
         .get(checkAuth, controller.getByPeriod);
+
+    router.route("changeInvoiced/:invoiced")
+        .put(checkAuth, controller.changeInvoiced);
     
     router.route("/:_id")
         .put(checkAuth, controller.put)
