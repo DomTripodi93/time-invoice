@@ -1,17 +1,17 @@
 const autoMapper = require("../middleware/autoMapper");
 
-function ClockItemController(ClockItem) {
+function InvoiceController(Invoice) {
 
     function post(req, res) {
-        const clockItem = new ClockItem(req.body);
-        clockItem.userId = req.userId;
-        clockItem.date = dateRegulator(clockItem.date);
-        clockItem.save((err) => {
+        const invoice = new Invoice(req.body);
+        invoice.userId = req.userId;
+        invoice.date = dateRegulator(invoice.date);
+        invoice.save((err) => {
             if (err) {
                 return res.send(err);
             }
             res.status(201);
-            return res.json(clockItem);
+            return res.json(invoice);
         });
     };
 
@@ -27,19 +27,18 @@ function ClockItemController(ClockItem) {
         }
     }
 
-    function getByDay(req, res) {
-        const day = req.params.date;
+    function getByNumber(req, res) {
         const query = {
             userId: req.userId,
-            date: getDateRange(day, day)
+            invoiceNumber: req.params.invoiceNumber
         }
-        ClockItem.find(query)
+        Invoice.find(query)
             .sort({date: 1})
-            .exec((err, clockItems) => {
+            .exec((err, invoices) => {
             if (err) {
                 return res.send(err);
             }
-            return res.json(clockItems);
+            return res.json(invoices);
         });
     };
 
@@ -50,13 +49,13 @@ function ClockItemController(ClockItem) {
             userId: req.userId,
             date: getDateRange(startDate, endDate)
         }
-        ClockItem.find(query)
+        Invoice.find(query)
             .sort({date: 1})
-            .exec((err, clockItems) => {
+            .exec((err, invoices) => {
             if (err) {
                 return res.send(err);
             }
-            return res.json(clockItems);
+            return res.json(invoices);
         });
     };
 
@@ -65,13 +64,13 @@ function ClockItemController(ClockItem) {
         const query = {
             _id: req.params._id
         }
-        ClockItem.find(query, (err, users) => {
+        Invoice.find(query, (err, users) => {
             if (err) {
                 return res.send(err);
             }
-            let clockItemForUpdate = users[0].toObject();
-            clockItemForUpdate = autoMapper(clockItemForUpdate, req.body);
-            ClockItem.updateOne(query, clockItemForUpdate)
+            let invoiceForUpdate = users[0].toObject();
+            invoiceForUpdate = autoMapper(invoiceForUpdate, req.body);
+            Invoice.updateOne(query, invoiceForUpdate)
                 .then(result => {
                     if (result.nModified > 0) {
                         return res.status(200).json({ message: "Update Successful" });
@@ -86,7 +85,7 @@ function ClockItemController(ClockItem) {
         const query = {
             _id: req.params._id
         }
-        ClockItem.deleteOne(query).then(
+        Invoice.deleteOne(query).then(
             result => {
                 if (result.n > 0) {
                     return res.status(200).json({ message: "Deletion successful!" });
@@ -97,7 +96,7 @@ function ClockItemController(ClockItem) {
         );
     }
 
-    return { post, getByPeriod, getByDay, put, deleteTime }
+    return { post, getByPeriod, getByNumber, put, deleteTime }
 }
 
-module.exports = ClockItemController;
+module.exports = InvoiceController;
