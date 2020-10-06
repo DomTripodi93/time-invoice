@@ -13,6 +13,7 @@ const Home = lazy(() => import('./containers/home/home'));
 const Register = lazy(() => import('./containers/registration/registration'));
 const Signin = lazy(() => import('./containers/registration/signin'));
 const Signout = lazy(() => import('./containers/registration/signout'));
+const CalendarContainer = lazy(()=> import('./containers/calendar/calendarContainer'));
 
 
 const App = (props) => {
@@ -35,7 +36,7 @@ const App = (props) => {
         {authValue ?
           <Suspense fallback={<Loading />}>
             <Switch>
-              <Route exact path='/' component={Home} />
+              <Route exact path='/' component={CalendarContainer} />
               <Route exact path='/signout' component={Signout} />
             </Switch>
           </Suspense>
