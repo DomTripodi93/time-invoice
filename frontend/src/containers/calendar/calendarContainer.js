@@ -1,5 +1,9 @@
+import React from 'react';
+import CalendarNew from '../../components/calendar/calendar-new';
+import Calendar from '../../components/calendar/calendar';
 
-const ScheduleContainer = props => {
+
+const CalendarContainer = props => {
     const date = new Date();
     const thisMonth = date.getMonth();
     const [month, setMonth] = useState(thisMonth);
@@ -13,7 +17,6 @@ const ScheduleContainer = props => {
 
     return (
         <div>
-            <MessageTopContainer />
             <div className="space-top">
                 <CalendarNew
                     callback={updateMonth}
@@ -29,27 +32,8 @@ const ScheduleContainer = props => {
                 year={year}
                 isRoot={isRoot}
                 canEdit={canEdit} />
-            <MessagePagedContainer />
         </div>
     )
 }
 
-const mapDispatchToProps = dispatch => {
-    return {
-        fetchSchedulesByMonth: (date) => dispatch(fetchSchedulesByMonth(date)),
-        selectSchedulesInState: (date) => dispatch(selectSchedulesInStateForEmployee(date)),
-        setIsRoot: (isRoot) => dispatch(setIsRoot(isRoot))
-    }
-}
-
-
-const mapStateToProps = state => ({
-    scheduledTasks: state.schedule.scheduledTasks.employee,
-    isRoot: state.schedule.isRoot,
-    canEdit: state.user.canEdit,
-    selectedTasks: state.schedule.selectedScheduledTasks,
-    userId: state.user.userId,
-    rootId: state.user.rootId
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(ScheduleContainer);
+export default CalendarContainer;

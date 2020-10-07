@@ -9,7 +9,7 @@ const Home = () => {
                 To get started <Link to="/register">sign up</Link> for a new account
             </h4>
             <h4 className="spaced">
-                If you already have an account, you can <Link to='/signin'>log in</Link>
+                If you already have an account, you can <Link to='/signin'>log in here</Link>
             </h4>
         </div>
     );
