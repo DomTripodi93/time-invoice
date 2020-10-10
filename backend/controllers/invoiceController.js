@@ -102,7 +102,7 @@ function InvoiceController(Invoice, ClockItem) {
         });
     }
 
-    function deleteTime(req, res) {
+    function deleteInvoice(req, res) {
         let processed = 0;
         req.body.invoiced.forEach(id => {
             processed++
@@ -137,7 +137,7 @@ function InvoiceController(Invoice, ClockItem) {
         });
     }
 
-    return { post, getByPeriod, getByNumber, put, deleteTime }
+    return { post, getByPeriod, getByNumber, put, deleteInvoice }
 }
 
 module.exports = InvoiceController;

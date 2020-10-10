@@ -10,12 +10,12 @@ function routes(ClockItem){
     router.route("")
         .post(checkAuth, controller.post);
 
-    router.route("/byDate/:date")
-        .get(checkAuth, controller.getByDay);
-
-    router.route("/byDateRange/:startDate&:endDate")
+    router.route("/byDateRange/:startDate/:endDate")
         .get(checkAuth, controller.getByPeriod);
-    
+
+    router.route("/byInvoiced/:startDate/:endDate/:invoiced")
+        .get(checkAuth, controller.getByPeriodAndInvoiced);
+
     router.route("/:_id")
         .put(checkAuth, controller.put)
         .delete(checkAuth, controller.deleteTime);

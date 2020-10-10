@@ -11,6 +11,6 @@ const invoiceModel = new Schema(
     }
 );
 
-objectiveModel.index({ userId: 1, invoiceNumber: 1 }, { unique: true });
+invoiceModel.index({ userId: 1, invoiceNumber: 1 }, { unique: true });
 
 module.exports = mongoose.model('Invoice', invoiceModel);

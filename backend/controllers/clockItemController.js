@@ -1,4 +1,5 @@
 const autoMapper = require("../middleware/autoMapper");
+const dateRegulator = require("../middleware/dateRegulator");
 
 function ClockItemController(ClockItem) {
 
@@ -15,40 +16,57 @@ function ClockItemController(ClockItem) {
         });
     };
 
-    function getDateRange(startDate, endDate) {
-        const startInfo = startDate.split("-");
-        startInfo[1] -= 1;
-        const endInfo = endDate.split("-");
-        endInfo[1] -= 1;
-
+    function getDayRange(date) {
+        const dateInfo = date.split("-");
+        dateInfo[1] -= 1;
         return {
-            $gte: new Date(Date.UTC(...startInfo, 00, 00, 00)),
-            $lt: new Date(Date.UTC(...endInfo, 23, 59, 59))
+            $gte: new Date(Date.UTC(...dateInfo, 00, 00, 00)),
+            $lt: new Date(Date.UTC(...dateInfo, 23, 59, 59))
         }
     }
 
-    function getByDay(req, res) {
-        const day = req.params.date;
-        const query = {
-            userId: req.userId,
-            date: getDateRange(day, day)
-        }
-        ClockItem.find(query)
-            .sort({date: 1})
-            .exec((err, clockItems) => {
-            if (err) {
-                return res.send(err);
+    function getResultsForPeriod(query) {
+        return new Promise((resolve, reject) => {
+            ClockItem.find(query)
+                .sort({date: 1})
+                .exec((err, clockItems) => {
+                if (err) {
+                    return reject(err);
+                }
+                resolve(clockItems);
+            });
+        })
+    }
+
+    async function getByPeriod(req, res) {
+        let stopDate =  new Date(req.params.endDate);
+        const results = {};
+        for (
+            let currentDate = new Date(req.params.startDate); 
+            currentDate <= stopDate; 
+            currentDate.setDate(currentDate.getDate() + 1)
+        ){
+            let dateString = new Date(currentDate).toJSON().split('T')[0]
+            let query = {
+                userId: req.userId,
+                date: getDayRange(dateString)
             }
-            return res.json(clockItems);
-        });
+            await getResultsForPeriod(query)
+                .then(result=>{
+                    results[dateString] = result;
+                })
+                .catch(err=>{
+                    res.json(err);
+                });
+        }
+        return res.json(results);
     };
 
-    function getByPeriod(req, res) {
-        const startDate = req.params.startDate;
-        const endDate = req.params.endDate;
+    function getByPeriodAndInvoiced(req, res) {
         const query = {
             userId: req.userId,
-            date: getDateRange(startDate, endDate)
+            date: getDayRange(req.params.startDate),
+            invoiced: req.params.invoiced
         }
         ClockItem.find(query)
             .sort({date: 1})
@@ -98,7 +116,7 @@ function ClockItemController(ClockItem) {
         );
     }
 
-    return { post, getByPeriod, getByDay, put, deleteTime }
+    return { post, getByPeriod, getByPeriodAndInvoiced, put, deleteTime }
 }
 
 module.exports = ClockItemController;

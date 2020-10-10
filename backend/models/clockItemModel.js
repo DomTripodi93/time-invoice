@@ -1,6 +1,4 @@
 const mongoose = require('mongoose');
-const uniqueValidator = require("mongoose-unique-validator");
-
 const { Schema } = mongoose;
 
 const clockItemModel = new Schema(
@@ -15,6 +13,6 @@ const clockItemModel = new Schema(
     }
 );
 
-objectiveModel.index({ userId: 1, timeId: 1 }, { unique: true });
+clockItemModel.index({ userId: 1, timeId: 1 }, { unique: true });
 
 module.exports = mongoose.model('Clock Item', clockItemModel);

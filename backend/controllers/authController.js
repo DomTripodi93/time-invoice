@@ -7,10 +7,8 @@ function authController (User) {
     function postRegister(req, res ) {
         bcrypt.hash(req.body.password, 10).then(hash => {
           const user = new User({
-            title: "Owner",
             ...req.body,
-            password: hash,
-            defaultEmployeePassword: "Password1!"
+            password: hash
           });
           user.save()
             .then(result => {
@@ -19,11 +17,7 @@ function authController (User) {
                 result: {
                     id: result._id,
                     email: result.email,
-                    name: result.name,
-                    deptName: result.deptName,
-                    title: result.title,
-                    canEdit: result.canEdit,
-                    defaultEmployeePassword: result.defaultEmployeePassword
+                    name: result.name
                 }
               });
             })
