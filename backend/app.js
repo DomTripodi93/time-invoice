@@ -19,7 +19,7 @@ mongoose
   .connect(
     "mongodb+srv://proc:" + 
     env.dbpw +
-    "@proc.sfuco.mongodb.net/" +
+    "@cluster0.pneh5.mongodb.net/" +
     env.dbName +
     "?retryWrites=true&w=majority", 
     { 

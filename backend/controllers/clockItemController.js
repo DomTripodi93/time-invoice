@@ -49,7 +49,7 @@ function ClockItemController(ClockItem) {
             let dateString = new Date(currentDate).toJSON().split('T')[0]
             let query = {
                 userId: req.userId,
-                date: getDayRange(dateString)
+                time: getDayRange(dateString)
             }
             await getResultsForPeriod(query)
                 .then(result=>{
@@ -65,7 +65,7 @@ function ClockItemController(ClockItem) {
     function getByPeriodAndInvoiced(req, res) {
         const query = {
             userId: req.userId,
-            date: getDayRange(req.params.startDate),
+            time: getDayRange(req.params.startDate),
             invoiced: req.params.invoiced
         }
         ClockItem.find(query)
