@@ -103,17 +103,40 @@ function ClockItemController(ClockItem) {
 
     function deleteTime(req, res) {
         const query = {
+            userId: req.userId,
             _id: req.params._id
         }
-        ClockItem.deleteOne(query).then(
-            result => {
-                if (result.n > 0) {
-                    return res.status(200).json({ message: "Deletion successful!" });
-                } else {
-                    return res.status(500).json({ message: "Cannot Delete" });
-                }
+        ClockItem.find(query, (err, clockItems) => {
+            if (err) {
+                return res.send(err);
             }
-        );
+            if (clockItems[0].toObject().effect === "start"){
+                manyQuery = {
+                    userId: req.userId,
+                    timeId: clockItems[0].toObject().timeId
+                }
+                ClockItem.deleteMany(manyQuery).then(
+                    result => {
+                        if (result.n > 0) {
+                            return res.status(200).json({ message: "Deletion successful!" });
+                        } else {
+                            return res.status(500).json({ message: "Cannot Delete" });
+                        }
+                    }
+                );
+
+            } else {
+                ClockItem.deleteOne(query).then(
+                    result => {
+                        if (result.n > 0) {
+                            return res.status(200).json({ message: "Deletion successful!" });
+                        } else {
+                            return res.status(500).json({ message: "Cannot Delete" });
+                        }
+                    }
+                );
+            }   
+        })
     }
 
     return { post, getByPeriod, getByPeriodAndInvoiced, put, deleteTime }
