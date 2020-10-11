@@ -49,7 +49,7 @@ function ClockItemController(ClockItem) {
             let dateString = new Date(currentDate).toJSON().split('T')[0]
             let query = {
                 userId: req.userId,
-                time: getDayRange(dateString)
+                startTime: getDayRange(dateString)
             }
             await getResultsForPeriod(query)
                 .then(result=>{
@@ -62,20 +62,29 @@ function ClockItemController(ClockItem) {
         return res.json(results);
     };
 
-    function getByPeriodAndInvoiced(req, res) {
-        const query = {
-            userId: req.userId,
-            time: getDayRange(req.params.startDate),
-            invoiced: req.params.invoiced
-        }
-        ClockItem.find(query)
-            .sort({date: 1})
-            .exec((err, clockItems) => {
-            if (err) {
-                return res.send(err);
+    async function getByPeriodAndInvoiced(req, res) {
+        let stopDate =  new Date(req.params.endDate);
+        const results = {};
+        for (
+            let currentDate = new Date(req.params.startDate); 
+            currentDate <= stopDate; 
+            currentDate.setDate(currentDate.getDate() + 1)
+        ){
+            let dateString = new Date(currentDate).toJSON().split('T')[0]
+            let query = {
+                userId: req.userId,
+                startTime: getDayRange(dateString),
+                invoiced: req.params.invoiced
             }
-            return res.json(clockItems);
-        });
+            await getResultsForPeriod(query)
+                .then(result=>{
+                    results[dateString] = result;
+                })
+                .catch(err=>{
+                    res.json(err);
+                });
+        }
+        return res.json(results);
     };
 
 
@@ -106,37 +115,15 @@ function ClockItemController(ClockItem) {
             userId: req.userId,
             _id: req.params._id
         }
-        ClockItem.find(query, (err, clockItems) => {
-            if (err) {
-                return res.send(err);
-            }
-            if (clockItems[0].toObject().effect === "start"){
-                manyQuery = {
-                    userId: req.userId,
-                    timeId: clockItems[0].toObject().timeId
+        ClockItem.deleteMany(query).then(
+            result => {
+                if (result.n > 0) {
+                    return res.status(200).json({ message: "Deletion successful!" });
+                } else {
+                    return res.status(500).json({ message: "Cannot Delete" });
                 }
-                ClockItem.deleteMany(manyQuery).then(
-                    result => {
-                        if (result.n > 0) {
-                            return res.status(200).json({ message: "Deletion successful!" });
-                        } else {
-                            return res.status(500).json({ message: "Cannot Delete" });
-                        }
-                    }
-                );
-
-            } else {
-                ClockItem.deleteOne(query).then(
-                    result => {
-                        if (result.n > 0) {
-                            return res.status(200).json({ message: "Deletion successful!" });
-                        } else {
-                            return res.status(500).json({ message: "Cannot Delete" });
-                        }
-                    }
-                );
-            }   
-        })
+            }
+        );
     }
 
     return { post, getByPeriod, getByPeriodAndInvoiced, put, deleteTime }

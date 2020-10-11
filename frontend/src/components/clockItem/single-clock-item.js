@@ -29,13 +29,13 @@ const SingleClockItem = props => {
                 {!editMode ?
                     <div>
                         <h3>{props.clockItem.practice}</h3>
-                        {props.clockItem.method ?
-                            <h4>Method: <br /> {props.clockItem.method}</h4>
+                        {props.clockItem.time ?
+                            <h4>Time: <br /> {props.clockItem.time}</h4>
                             :
                             null
                         }
-                        {props.clockItem.purpose ?
-                            <h4>Purpose: <br /> {props.clockItem.purpose}</h4>
+                        {props.clockItem.timeFor ?
+                            <h4>Customer: <br /> {props.clockItem.timeFor}</h4>
                             :
                             null
                         }

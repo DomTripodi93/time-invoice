@@ -1,18 +1,18 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
+const uniqueValidator = require("mongoose-unique-validator");
 
 const clockItemModel = new Schema(
     {
-        userId: { type: mongoose.Schema.Types.ObjectId, required: true, unique: false },
-        timeId: { type: String, required: true, unique: false },
-        effect: { type: String, required: true, unique: false },
-        time: { type: Date, required: true },
+        userId: { type: String, required: true },
+        startTime: { type: Date, required: true },
+        endTime: { type: Date },
         timeFor: { type: String },
         hours: { type: Number},
         invoiced: { type: Boolean }
     }
 );
 
-clockItemModel.index({ userId: 1, timeId: 1, effect: 1 }, { unique: true });
+clockItemModel.plugin(uniqueValidator);
 
 module.exports = mongoose.model('Clock Item', clockItemModel);
