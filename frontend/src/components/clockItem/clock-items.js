@@ -1,9 +1,7 @@
 import React from 'react';
-// import SingleClockItem from './single-clock-item';
+import SingleClockItem from './single-clock-item';
 
 const ClockItems = props => {
-    // <SingleClockItem
-    //     clockItem={clockItem} />
     return (
         <div>
             {props.clockItems.length > 0 ?
@@ -13,7 +11,8 @@ const ClockItems = props => {
                             <div
                                 key={clockItem._id}
                             >
-                                {clockItem._id}
+                                <SingleClockItem
+                                    clockItem={clockItem} />
                                 <br />
                             </div>
                         ))}

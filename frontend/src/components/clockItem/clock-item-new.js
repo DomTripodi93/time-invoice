@@ -9,9 +9,6 @@ const ClockItemNew = (props) => {
                 <div>
                     <div className='border'>
                         <ClockItemForm
-                            deptName={props.deptName}
-                            objectiveName={props.objectiveName}
-                            stepNumber={props.stepNumber}
                             callback={props.action}
                             editMode={false} />
                     </div>
@@ -22,7 +19,7 @@ const ClockItemNew = (props) => {
                     <div className='grid100'>
                         <CustomButton
                             buttonStyle="blue round"
-                            label="Add Best Practice"
+                            label="Add Time"
                             action={props.action}
                         />
                     </div>

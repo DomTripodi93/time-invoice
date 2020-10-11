@@ -7,7 +7,7 @@ const clockItemModel = new Schema(
         userId: { type: String, required: true },
         startTime: { type: Date, required: true },
         endTime: { type: Date },
-        timeFor: { type: String },
+        customer: { type: String },
         hours: { type: Number},
         invoiced: { type: Boolean }
     }

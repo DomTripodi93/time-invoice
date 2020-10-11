@@ -7,12 +7,9 @@ import FormInput from '../../../shared/elements/form-input/form-input.component'
 
 const ClockItemForm = props => {
     const [clockItemInfo, setClockItemInfo] = useState({
-        deptName: props.deptName,
-        objectiveName: props.objectiveName,
-        stepNumber: props.stepNumber,
-        practice: '',
-        method: '',
-        purpose: ''
+        startTime: new Date(),
+        endTime: new Date(),
+        customer: "",
     });
 
     const { practice, method, purpose } = clockItemInfo;
@@ -51,34 +48,34 @@ const ClockItemForm = props => {
         <div className='middle'>
             {!props.editMode ?
                 <h3 className='centered'>
-                    Fill out the form below to add a Best Practice
+                    Fill out the form below to add a Time
                 </h3>
                 :
                 <h3 className='centered'>
-                    {props.clockItemInput.practice}
+                    {props.clockItemInput.customer} - {props.clockItemInput.startTime}
                 </h3>
             }
             <form onSubmit={handleSubmit}>
                 <FormInput
-                    label='Practice'
-                    type='text'
-                    name='practice'
-                    value={practice}
+                    label='Start Time'
+                    type='datetime'
+                    name='startTime'
+                    value={startTime}
                     onChange={handleChange}
                 />
                 <FormInput
-                    label='Method'
-                    type='text'
-                    name='method'
-                    value={method}
+                    label='End Time'
+                    type='datetime'
+                    name='endTime'
+                    value={endTime}
                     onChange={handleChange}
                     required
                 />
                 <FormInput
-                    label='Purpose'
+                    label='Customer'
                     type='text'
-                    name='purpose'
-                    value={purpose}
+                    name='customer'
+                    value={customer}
                     onChange={handleChange}
                     required
                 />

@@ -68,7 +68,7 @@ class helpers {
         return date.split("T")[1].substring(0, 5);
     }
 
-    timeForDisplay(time) {
+    customerDisplay(time) {
         if (+time[0] > 0) {
             if (+time[0] > 1) {
                 let hour = +time.substring(0, 2) - 12;

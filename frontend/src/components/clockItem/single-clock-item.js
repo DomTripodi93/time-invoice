@@ -28,16 +28,32 @@ const SingleClockItem = props => {
             <div className='border-practice centered'>
                 {!editMode ?
                     <div>
-                        <h3>{props.clockItem.practice}</h3>
-                        {props.clockItem.time ?
-                            <h4>Time: <br /> {props.clockItem.time}</h4>
+                        <h3>
+                            {props.clockItem.customer ?
+                                <h4>Customer: <br /> {props.clockItem.customer}</h4>
+                                :
+                                null
+                            }
+                        </h3>
+                        {props.clockItem.startTime ?
+                            <h4>Start Time: <br /> {props.clockItem.startTime}</h4>
                             :
                             null
                         }
-                        {props.clockItem.timeFor ?
-                            <h4>Customer: <br /> {props.clockItem.timeFor}</h4>
+                        {props.clockItem.endTime ?
+                            <h4>End Time: <br /> {props.clockItem.endTime}</h4>
                             :
                             null
+                        }
+                        {props.clockItem.hours ?
+                            <h4>Hours: <br /> {props.clockItem.hours}</h4>
+                            :
+                            null
+                        }
+                        {props.clockItem.invoiced ?
+                            <h4>Invoiced:  Yes</h4>
+                            :
+                            <h4>Invoiced:  No</h4>
                         }
                         {!props.change ?
                             <div className="grid50">
@@ -57,7 +73,6 @@ const SingleClockItem = props => {
                     :
                     <ClockItemForm
                         editMode={true}
-                        inDept={props.inDept}
                         clockItemInput={props.clockItem}
                         callback={setEditMode} />
                 }

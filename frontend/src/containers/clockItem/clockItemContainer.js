@@ -5,20 +5,20 @@ import ClockItemNew from '../../components/process/best-practice/best-practice-n
 import ClockItems from '../../components/process/best-practice/best-practices';
 
 import './process.styles.scss';
+import { fetchClockItemsByDateAndInvoiced } from '../../reducers/clockItem/clock-item.actions';
 
 
 const ClockItemContainer = (props) => {
     const [addMode, setAddMode] = useState(false);
     const fetchClockItems = props.fetchClockItems;
-    const deptName = props.deptName;
-    const objectiveName = props.objectiveName;
-    const stepNumber = props.stepNumber;
+    const startDate = props.match.params.startDate;
+    const endDate = props.match.params.endDate;
 
     useEffect(() => {
-        if (stepNumber) {
-            fetchClockItems(deptName, objectiveName, stepNumber);
+        if (startDate && endDate) {
+            fetchClockItems(startDate, endDate);
         }
-    }, [fetchClockItems, deptName, objectiveName, stepNumber]);
+    }, [fetchClockItems, startDate, endDate]);
 
 
     const showClockItemForm = () => {
@@ -27,12 +27,9 @@ const ClockItemContainer = (props) => {
 
     return (
         <div>
-            <h3 className='centered'>Best Practices</h3>
+            <h3 className='centered'>Clock Times</h3>
             <div className="grid100">
                 <ClockItemNew
-                    deptName={deptName}
-                    objectiveName={objectiveName}
-                    stepNumber={stepNumber}
                     addMode={addMode}
                     action={showClockItemForm} />
             </div>
@@ -50,7 +47,9 @@ const ClockItemContainer = (props) => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        fetchClockItems: (deptName, objectiveName, stepNumber) => dispatch(fetchClockItemsByDate(deptName, objectiveName, stepNumber))
+        fetchClockItems: (startDate, endDate) => dispatch(fetchClockItemsByDate(startDate, endDate)),
+        fetchClockItemsInvoiced: (startDate, endDate, invoiced) => 
+            dispatch(fetchClockItemsByDateAndInvoiced(startDate, endDate, invoiced))
     }
 }
 
