@@ -32,7 +32,7 @@ export function addClockItem(clockItem, callback) {
     return dispatch => {
         http.addItem("clockItem", clockItem)
             .then(addedClockItem => {
-                dispatch(addClockItemToState(addedClockItem.data));
+                dispatch(addOrUpdateClockItemToState(addedClockItem.data));
                 callback();
             });
     }
@@ -44,7 +44,7 @@ export function updateClockItem(clockItem, callback) {
     return dispatch => {
         http.updateItemById("clockItem", clockItem, clockItem._id)
             .then(() => {
-                dispatch(updateClockItemsInState(clockItem));
+                dispatch(addOrUpdateClockItemToState(clockItem));
                 callback();
             }
         );
@@ -65,14 +65,14 @@ export function deleteClockItem(id) {
 
 
 
-
-export function addClockItemToState(clockItem) {
+export function addOrUpdateClockItemInState(clockItem, date) {
     return {
-        type: ClockItemActionTypes.ADD_CLOCK_ITEM,
-        payload: clockItem
+        type: ClockItemActionTypes.ADD_OR_UPDATE_CLOCK_ITEMS,
+        payload: clockItem,
+        date
     }
 }
-//Adds new clockItem from post to state
+//Adds or Updates clockItem in state
 
 export function setClockItems(clockItems) {
     return {
@@ -81,14 +81,6 @@ export function setClockItems(clockItems) {
     }
 }
 //Sets all clockItems in state
-
-export function updateClockItemsInState(clockItem) {
-    return {
-        type: ClockItemActionTypes.UPDATE_CLOCK_ITEMS,
-        payload: clockItem
-    }
-}
-//Updates function for clockItem
 
 export function deleteClockItemFromState(id) {
     return {
@@ -99,23 +91,7 @@ export function deleteClockItemFromState(id) {
 //Deletes selected clockItem
 
 function prepClockItemValues(clockItem) {
-    clockItem.practice = helper.capitalizeAll(clockItem.practice);
-    if (clockItem.method) {
-        clockItem.method = helper.capitalize(clockItem.method);
-    }
-    if (clockItem.purpose) {
-        clockItem.purpose = helper.capitalize(clockItem.purpose);
-    }
-
+    clockItem.practice = helper.capitalizeAll(clockItem.timeFor);
     return clockItem;
 }
 
-
-export function setClockItemsByDate(clockItems, key) {
-    return {
-        type: ClockItemActionTypes.SET_CLOCK_ITEMS_BY_DATE,
-        payload: clockItems,
-        key
-    }
-}
-//Sets commonDifficulties with step as key in state
