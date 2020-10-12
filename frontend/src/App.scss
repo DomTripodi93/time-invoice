@@ -28,6 +28,10 @@ a, ul{
   height: 2.5rem;
 }
 
+.left-side{
+  margin-left: 50px;
+}
+
 .long{
   height: 70px;
 }
@@ -47,7 +51,7 @@ a, ul{
 
 .size-holder{
   width: 93%;
-  max-width: 830px;
+  max-width: 1630px;
 }
 
 .size-border{
@@ -61,7 +65,7 @@ a, ul{
   background-color: rgb(214, 206, 255);
   margin: auto;
   width: 90%;
-  max-width: 800px;
+  max-width: 1400px;
 }
 
 .bottom-border{
@@ -138,9 +142,28 @@ a, ul{
   grid-template-columns: 20% 80%;
 }
 
+.grid70 { 
+  display: grid;
+  grid-template-columns: 30% 70%;
+}
+
 .grid-arrows { 
   display: grid;
   grid-template-columns: 20% 60% 20%;
+}
+
+.grid50-to-100 { 
+  display: grid;
+  grid-template-columns: 50% 50%;
+
+  @media only screen and (max-width: 915px){
+    display: grid;
+    grid-template-columns: 100%;
+  }
+  @media only screen and (min-width: 1415px){
+      display: grid;
+      grid-template-columns: 33% 33% 33%;
+  }
 }
 
 .sized30{

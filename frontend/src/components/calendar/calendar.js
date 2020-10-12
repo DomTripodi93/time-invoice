@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import CalendarHelper from '../../../shared/calendar-helper';
+import CalendarHelper from '../../shared/calendar-helper';
+import './calendar.styles.scss';
+
+
 
 const Calendar = props => {
     const [month, setMonth] = useState(props.month);

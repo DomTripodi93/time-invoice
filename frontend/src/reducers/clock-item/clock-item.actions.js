@@ -1,6 +1,6 @@
-import rootHttp from '../../root-http';
+import rootHttp from '../root-http';
 import ClockItemActionTypes from './clock-item.types';
-import helpers from '../../../shared/helpers';
+import helpers from '../../shared/helpers';
 
 
 const http = new rootHttp();
@@ -32,7 +32,7 @@ export function addClockItem(clockItem, callback) {
     return dispatch => {
         http.addItem("clockItem", clockItem)
             .then(addedClockItem => {
-                dispatch(addOrUpdateClockItemToState(addedClockItem.data));
+                dispatch(addOrUpdateClockItemInState(addedClockItem.data));
                 callback();
             });
     }
@@ -44,7 +44,7 @@ export function updateClockItem(clockItem, callback) {
     return dispatch => {
         http.updateItemById("clockItem", clockItem, clockItem._id)
             .then(() => {
-                dispatch(addOrUpdateClockItemToState(clockItem));
+                dispatch(addOrUpdateClockItemInState(clockItem));
                 callback();
             }
         );

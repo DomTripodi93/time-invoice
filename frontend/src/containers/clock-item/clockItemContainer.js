@@ -1,20 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { fetchClockItemsByDate } from '../../reducers/process/best-practice/best-practice.actions';
-import ClockItemNew from '../../components/process/best-practice/best-practice-new';
-import ClockItems from '../../components/process/best-practice/best-practices';
+import { fetchClockItemsByDate } from '../../reducers/clock-item/clock-item.actions';
+import ClockItemNew from '../../components/clock-item/clock-item-new';
 
-import './process.styles.scss';
-import { fetchClockItemsByDateAndInvoiced } from '../../reducers/clockItem/clock-item.actions';
-
+import { fetchClockItemsByDateAndInvoiced } from '../../reducers/clock-item/clock-item.actions';
+import ClockItemDates from '../../components/clock-item/clock-item-dates';
 
 const ClockItemContainer = (props) => {
+    const thisMonth = new Date().getMonth();
+    const thisYear = new Date().getFullYear();
     const [addMode, setAddMode] = useState(false);
     const fetchClockItems = props.fetchClockItems;
-    const startDate = props.match.params.startDate;
-    const endDate = props.match.params.endDate;
+    const [dateRange, setDateRange] = useState({
+        startDate: new Date(thisYear, thisMonth, 1).toJSON().split('T')[0],
+        endDate:  new Date(thisYear, thisMonth+1, 0).toJSON().split('T')[0]
+    })
+    const {startDate, endDate} = dateRange;
 
     useEffect(() => {
+        console.log(startDate)
         if (startDate && endDate) {
             fetchClockItems(startDate, endDate);
         }
@@ -26,16 +30,19 @@ const ClockItemContainer = (props) => {
     }
 
     return (
-        <div>
+        <div className="size-holder middle">
             <h3 className='centered'>Clock Times</h3>
             <div className="grid100">
                 <ClockItemNew
                     addMode={addMode}
-                    action={showClockItemForm} />
+                    addFormCallback={showClockItemForm}
+                    dateRangeCallback={setDateRange}
+                    startDate={startDate}
+                    endDate={endDate} />
             </div>
             <br />
             {props.clockItems ?
-                <ClockItems
+                <ClockItemDates
                     action={showClockItemForm}
                     clockItems={props.clockItems} />
                 :

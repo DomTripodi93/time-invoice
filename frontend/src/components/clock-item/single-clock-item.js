@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import CustomButton from '../../../shared/elements/button/custom-button.component';
+import CustomButton from '../../shared/elements/button/custom-button.component';
 import ClockItemForm from './clock-item-form';
-import { deleteClockItem } from '../../../reducers/process/best-practice/best-practice.actions';
+import { deleteClockItem } from '../../reducers/clock-item/clock-item.actions';
 import { connect } from 'react-redux';
 
 const SingleClockItem = props => {
@@ -27,36 +27,44 @@ const SingleClockItem = props => {
         <div>
             <div className='border-practice centered'>
                 {!editMode ?
-                    <div>
-                        <h3>
+                    <div className='times-grid'>
+                        <div className="inner-border-left-header">
                             {props.clockItem.customer ?
-                                <h4>Customer: <br /> {props.clockItem.customer}</h4>
+                                <h4>{props.clockItem.customer}</h4>
                                 :
                                 null
                             }
-                        </h3>
-                        {props.clockItem.startTime ?
-                            <h4>Start Time: <br /> {props.clockItem.startTime}</h4>
-                            :
-                            null
-                        }
-                        {props.clockItem.endTime ?
-                            <h4>End Time: <br /> {props.clockItem.endTime}</h4>
-                            :
-                            null
-                        }
-                        {props.clockItem.hours ?
-                            <h4>Hours: <br /> {props.clockItem.hours}</h4>
-                            :
-                            null
-                        }
-                        {props.clockItem.invoiced ?
-                            <h4>Invoiced:  Yes</h4>
-                            :
-                            <h4>Invoiced:  No</h4>
-                        }
+                        </div>
+                        <div className="inner-border-left-header">
+                            {props.clockItem.startTime ?
+                                <h4>{props.clockItem.startTime.split("T")[1].substring(0,5)}</h4>
+                                :
+                                null
+                            }
+                        </div>
+                        <div className="inner-border-left-header">
+                            {props.clockItem.endTime ?
+                                <h4>{props.clockItem.endTime.split("T")[1].substring(0,5)}</h4>
+                                :
+                                null
+                            }
+                        </div>
+                        <div className="inner-border-left-header">
+                            {props.clockItem.hours ?
+                                <h4>{props.clockItem.hours}</h4>
+                                :
+                                null
+                            }
+                        </div>
+                        <div className="inner-border-right-header">
+                            {props.clockItem.invoiced ?
+                                <h4>Yes</h4>
+                                :
+                                <h4>No</h4>
+                            }
+                        </div>
                         {!props.change ?
-                            <div className="grid50">
+                            <div className="grid100 inner-border-right-header">
                                 <CustomButton
                                     action={setEditMode}
                                     buttonStyle="blue"

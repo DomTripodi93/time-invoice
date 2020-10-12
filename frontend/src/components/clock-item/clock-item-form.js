@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { addClockItem, updateClockItem } from '../../../reducers/process/best-practice/best-practice.actions';
-import CustomButton from '../../../shared/elements/button/custom-button.component';
-import FormInput from '../../../shared/elements/form-input/form-input.component';
+import { addClockItem, updateClockItem } from '../../reducers/clock-item/clock-item.actions';
+import CustomButton from '../../shared/elements/button/custom-button.component';
+import FormInput from '../../shared/elements/form-input/form-input.component';
 
 
 const ClockItemForm = props => {
@@ -12,7 +12,7 @@ const ClockItemForm = props => {
         customer: "",
     });
 
-    const { practice, method, purpose } = clockItemInfo;
+    const { startTime, endTime, customer } = clockItemInfo;
 
     useEffect(() => {
         if (props.editMode) {

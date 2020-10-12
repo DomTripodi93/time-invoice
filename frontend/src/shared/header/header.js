@@ -21,7 +21,10 @@ const Header = props => {
                     </Link>
                     <div className='routes'>
                         <Link to='/' className='route'>
-                            Home
+                            Times
+                        </Link>
+                        <Link to='/calendar' className='route'>
+                            Calendar
                         </Link>
                     </div>
                     <div className='edge'>

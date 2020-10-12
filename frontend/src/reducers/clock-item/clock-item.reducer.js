@@ -1,4 +1,4 @@
-import ClockItemActionTypes from './best-practice.types';
+import ClockItemActionTypes from './clock-item.types';
 
 const INITIAL_STATE = {
     clockItems: {}
@@ -13,19 +13,21 @@ const clockItemReducer = (state = INITIAL_STATE, action) => {
                 clockItems: action.payload.data
             };
         case ClockItemActionTypes.ADD_OR_UPDATE_CLOCK_ITEMS:
-            clockItemsHold[action.date] = [
-                action.payload,
-                ...clockItemsHold[action.date]
-                    .filter((value) => {
-                        return value._id !== action.payload._id
-                    })]
-                .sort((first, second) => {
-                    if (first.startTime < second.startTime) {
-                        return 1
-                    } else {
-                        return -1
-                    }
-                })
+            if (clockItemsHold[action.date]){
+                clockItemsHold[action.date] = [
+                    action.payload,
+                    ...clockItemsHold[action.date]
+                        .filter((value) => {
+                            return value._id !== action.payload._id
+                        })]
+                    .sort((first, second) => {
+                        if (first.startTime < second.startTime) {
+                            return 1
+                        } else {
+                            return -1
+                        }
+                    })
+            }
             return {
                 ...state,
                 clockItems: clockItemsHold

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import CalendarNew from '../../components/calendar/calendar-new';
 import Calendar from '../../components/calendar/calendar';
 
@@ -24,14 +24,10 @@ const CalendarContainer = props => {
                     year={year} />
             </div>
             <Calendar
-                employeeId={props.match.params.employeeId}
-                scheduledTasks = {props.selectedTasks}
                 date={date}
                 month={month}
                 thisMonth={thisMonth}
-                year={year}
-                isRoot={isRoot}
-                canEdit={canEdit} />
+                year={year} />
         </div>
     )
 }

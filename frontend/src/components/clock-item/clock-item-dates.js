@@ -1,18 +1,21 @@
 import React from 'react';
-import SingleClockItem from './single-clock-item';
+import ClockItems from './clock-items';
 
-const ClockItems = props => {
+const ClockItemDates = props => {
     return (
         <div>
-            {props.clockItems.length > 0 ?
+            {Object.keys(props.clockItems).length > 0 ?
                 <div>
                     <div className='grid50-to-100'>
-                        {props.clockItems.map(clockItem => (
+                        {Object.keys(props.clockItems).map(key => (
                             <div
-                                key={clockItem._id}
+                                key={key}
                             >
-                                <SingleClockItem
-                                    clockItem={clockItem} />
+                            <h3>{key}</h3>
+                            <ClockItems
+                                action={props.showClockItemForm}
+                                clockItems={props.clockItems[key]}
+                                date={key} />
                                 <br />
                             </div>
                         ))}
@@ -33,4 +36,4 @@ const ClockItems = props => {
 }
 
 
-export default ClockItems;
+export default ClockItemDates;
