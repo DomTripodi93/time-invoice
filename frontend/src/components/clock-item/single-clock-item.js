@@ -5,9 +5,13 @@ import { deleteClockItem } from '../../reducers/clock-item/clock-item.actions';
 import { connect } from 'react-redux';
 import edit from '../../shared/assets/Edit.png';
 import trash from '../../shared/assets/Trash.png';
+import helpers from '../../shared/helpers';
 
 const SingleClockItem = props => {
+    const helper = new helpers()
     const [editMode, updateEditMode] = useState(false);
+
+    const date = helper.dateForDisplayWithDOW(props.date);
 
     const setEditMode = () => {
         updateEditMode(!editMode)
@@ -30,38 +34,41 @@ const SingleClockItem = props => {
             {!editMode ?
                 <div className='times-grid'>
                     <div className="inner-border-left">
+                        <h5>{date}</h5>
+                    </div>
+                    <div className="inner-border-left">
                         {props.clockItem.customer ?
-                            <h4>{props.clockItem.customer}</h4>
+                            <h5>{props.clockItem.customer}</h5>
                             :
                             null
                         }
                     </div>
                     <div className="inner-border-left">
                         {props.clockItem.startTime ?
-                            <h4>{props.clockItem.startTime.split("T")[1].substring(0,5)}</h4>
+                            <h5>{helper.timeForDisplay(helper.timeFromDate(props.clockItem.startTime))}</h5>
                             :
                             null
                         }
                     </div>
                     <div className="inner-border-left">
                         {props.clockItem.endTime ?
-                            <h4>{props.clockItem.endTime.split("T")[1].substring(0,5)}</h4>
+                            <h5>{helper.timeForDisplay(helper.timeFromDate(props.clockItem.endTime))}</h5>
                             :
                             null
                         }
                     </div>
                     <div className="inner-border-left">
                         {props.clockItem.hours ?
-                            <h4>{props.clockItem.hours}</h4>
+                            <h5>{props.clockItem.hours}</h5>
                             :
                             null
                         }
                     </div>
                     <div className="inner-border-right">
                         {props.clockItem.invoiced ?
-                            <h4>Yes</h4>
+                            <h5>Yes</h5>
                             :
-                            <h4>No</h4>
+                            <h5>No</h5>
                         }
                     </div>
                     {!props.change ?

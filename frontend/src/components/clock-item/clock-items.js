@@ -1,6 +1,5 @@
 import React from 'react';
 import SingleClockItem from './single-clock-item';
-import './clock-items.styles.scss'
 
 const ClockItems = props => {
     return (
@@ -8,43 +7,20 @@ const ClockItems = props => {
             {props.clockItems.length > 0 ?
                 <div>
                     <div className='grid100'>
-                        <div className='times-grid grid-line'>
-                            <div className="inner-border-left-header">
-                                <h5 className="grid-header-text">Customer</h5>
-                            </div>
-                            <div className="inner-border-left-header">
-                                <h5 className="grid-header-text">Start</h5>
-                            </div>
-                            <div className="inner-border-left-header">
-                                <h5 className="grid-header-text">End</h5>
-                            </div>
-                            <div className="inner-border-left-header">
-                                <h5 className="grid-header-text">Hours</h5>
-                            </div>
-                            <div className="inner-border-left-header">
-                                <h5 className="grid-header-text">Invoiced</h5>
-                            </div>
-                            <div className="inner-border-right-header">
-                                <h5 className="grid-header-text"></h5>
-                            </div>
-                        </div>
                         {props.clockItems.map(clockItem => (
                             <div
                                 key={clockItem._id}
                                 className="grid-line"
                                  >
                                 <SingleClockItem
-                                    clockItem={clockItem} />
+                                    clockItem={clockItem}
+                                    date={props.date} />
                             </div>
                         ))}
                     </div>
                 </div>
                 :
-                <div className="border centered">
-                    <h4 className="spaced">
-                        No clock items for {props.date}
-                    </h4>
-                </div>
+                null
             }
         </div>
     )

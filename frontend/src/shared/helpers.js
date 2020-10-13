@@ -77,28 +77,35 @@ class helpers {
         return date.split("T")[1].substring(0, 5);
     }
 
-    customerDisplay(time) {
+    timeForDisplay(time) {
         if (+time[0] > 0) {
             if (+time[0] > 1) {
                 let hour = +time.substring(0, 2) - 12;
-                time = hour + time.substring(2, 5) + " PM"
+                time = hour + time.substring(2, 5) + " PM";
             } else if (+time[1] > 2) {
                 let hour = +time.substring(0, 2) - 12;
-                time = hour + time.substring(2, 5) + " PM"
+                time = hour + time.substring(2, 5) + " PM";
             } else {
-                time = time + " AM"
+                time = time + " AM";
             }
         } else if (+time[1] === 0) {
-            time = "12" + time.substring(2, 5) + " AM"
+            time = "12" + time.substring(2, 5) + " AM";
         } else {
-            time = time.substring(1, 5) + " AM"
+            time = time.substring(1, 5) + " AM";
         }
         return time;
     }
 
     dateForDisplay(date) {
-        let dateArr = date.split("T")[0].split("-")
-        return [+dateArr[1], +dateArr[2], +dateArr[0]].join("-") 
+        let dateArr = date.split("T")[0].split("-");
+        return [+dateArr[1], +dateArr[2], +dateArr[0]].join("-") ;
+    }
+
+    dateForDisplayWithDOW(date) {
+        let asDate = new Date(date);
+        let dateArr = date.split("T")[0].split("-");
+        let DOW = asDate.toString().substring(0,4);
+        return DOW + [+dateArr[1], +dateArr[2], +dateArr[0]].join("-"); 
     }
 
 }
