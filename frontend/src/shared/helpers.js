@@ -54,6 +54,15 @@ class helpers {
         return date + hour + ":" + minute;
     }
 
+    getHoursDifference(begin, stop) {
+        let start = new Date(begin);
+        let end = new Date(stop);
+        let startTime = start.getHours() + (start.getMinutes()/60);
+        let endTime = end.getHours() + (end.getMinutes()/60);
+
+        return +(endTime - startTime).toFixed(2)
+    }
+
     setDateForIso(year, month, day) {
         if (month < 10) {
             month = "0" + month;

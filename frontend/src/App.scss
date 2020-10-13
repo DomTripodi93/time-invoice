@@ -28,6 +28,15 @@ a, ul{
   height: 2.5rem;
 }
 
+.icon{
+  height: 32px;
+  width: 20px;
+}
+
+.icon:hover{
+  cursor: pointer
+}
+
 .left-side{
   margin-left: 50px;
 }

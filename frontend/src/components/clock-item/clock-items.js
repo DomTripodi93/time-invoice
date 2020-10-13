@@ -8,7 +8,7 @@ const ClockItems = props => {
             {props.clockItems.length > 0 ?
                 <div>
                     <div className='grid100'>
-                        <div className='times-grid'>
+                        <div className='times-grid grid-line'>
                             <div className="inner-border-left-header">
                                 <h5 className="grid-header-text">Customer</h5>
                             </div>
@@ -30,10 +30,11 @@ const ClockItems = props => {
                         </div>
                         {props.clockItems.map(clockItem => (
                             <div
-                                key={clockItem._id} >
+                                key={clockItem._id}
+                                className="grid-line"
+                                 >
                                 <SingleClockItem
                                     clockItem={clockItem} />
-                                <br />
                             </div>
                         ))}
                     </div>

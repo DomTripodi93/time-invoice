@@ -3,13 +3,17 @@ import { connect } from 'react-redux';
 import { addClockItem, updateClockItem } from '../../reducers/clock-item/clock-item.actions';
 import CustomButton from '../../shared/elements/button/custom-button.component';
 import FormInput from '../../shared/elements/form-input/form-input.component';
+import helpers from '../../shared/helpers';
 
 
 const ClockItemForm = props => {
+    const helper = new helpers();
     const [clockItemInfo, setClockItemInfo] = useState({
-        startTime: new Date(),
-        endTime: new Date(),
+        startTime: helper.getCurrentTimeAndDate(),
+        endTime: helper.getCurrentTimeAndDate(),
         customer: "",
+        hours: 0,
+        invoiced: false
     });
 
     const { startTime, endTime, customer } = clockItemInfo;
@@ -27,14 +31,20 @@ const ClockItemForm = props => {
 
     const handleSubmit = async event => {
         event.preventDefault();
+        let clockItemToSubmit = {
+            ...clockItemInfo, 
+            hours: helper.getHoursDifference(
+                clockItemInfo.startTime,
+                clockItemInfo.endTime)
+        }
         if (props.editMode) {
             if (clockItemInfo !== props.clockItemInput) {
-                props.updateClockItem(clockItemInfo, props.callback);
+                props.updateClockItem(clockItemToSubmit, props.callback);
             } else {
                 props.callback();
             }
         } else {
-            props.addClockItem(clockItemInfo, props.callback);
+            props.addClockItem(clockItemToSubmit, props.callback);
         }
     };
 
@@ -58,14 +68,14 @@ const ClockItemForm = props => {
             <form onSubmit={handleSubmit}>
                 <FormInput
                     label='Start Time'
-                    type='datetime'
+                    type='datetime-local'
                     name='startTime'
                     value={startTime}
                     onChange={handleChange}
                 />
                 <FormInput
                     label='End Time'
-                    type='datetime'
+                    type='datetime-local'
                     name='endTime'
                     value={endTime}
                     onChange={handleChange}

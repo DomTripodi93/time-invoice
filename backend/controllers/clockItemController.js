@@ -28,7 +28,7 @@ function ClockItemController(ClockItem) {
     function getResultsForPeriod(query) {
         return new Promise((resolve, reject) => {
             ClockItem.find(query)
-                .sort({date: 1})
+                .sort({startTime: 1})
                 .exec((err, clockItems) => {
                 if (err) {
                     return reject(err);

@@ -3,6 +3,8 @@ import CustomButton from '../../shared/elements/button/custom-button.component';
 import ClockItemForm from './clock-item-form';
 import { deleteClockItem } from '../../reducers/clock-item/clock-item.actions';
 import { connect } from 'react-redux';
+import edit from '../../shared/assets/Edit.png';
+import trash from '../../shared/assets/Trash.png';
 
 const SingleClockItem = props => {
     const [editMode, updateEditMode] = useState(false);
@@ -24,67 +26,59 @@ const SingleClockItem = props => {
     }
 
     return (
-        <div>
-            <div className='border-practice centered'>
-                {!editMode ?
-                    <div className='times-grid'>
-                        <div className="inner-border-left-header">
-                            {props.clockItem.customer ?
-                                <h4>{props.clockItem.customer}</h4>
-                                :
-                                null
-                            }
-                        </div>
-                        <div className="inner-border-left-header">
-                            {props.clockItem.startTime ?
-                                <h4>{props.clockItem.startTime.split("T")[1].substring(0,5)}</h4>
-                                :
-                                null
-                            }
-                        </div>
-                        <div className="inner-border-left-header">
-                            {props.clockItem.endTime ?
-                                <h4>{props.clockItem.endTime.split("T")[1].substring(0,5)}</h4>
-                                :
-                                null
-                            }
-                        </div>
-                        <div className="inner-border-left-header">
-                            {props.clockItem.hours ?
-                                <h4>{props.clockItem.hours}</h4>
-                                :
-                                null
-                            }
-                        </div>
-                        <div className="inner-border-right-header">
-                            {props.clockItem.invoiced ?
-                                <h4>Yes</h4>
-                                :
-                                <h4>No</h4>
-                            }
-                        </div>
-                        {!props.change ?
-                            <div className="grid100 inner-border-right-header">
-                                <CustomButton
-                                    action={setEditMode}
-                                    buttonStyle="blue"
-                                    label="Edit" />
-                                <CustomButton
-                                    action={handleDelete}
-                                    buttonStyle="red"
-                                    label="Delete" />
-                            </div>
+        <div className='border-practice centered'>
+            {!editMode ?
+                <div className='times-grid'>
+                    <div className="inner-border-left">
+                        {props.clockItem.customer ?
+                            <h4>{props.clockItem.customer}</h4>
                             :
                             null
                         }
                     </div>
-                    :
-                    <ClockItemForm
-                        editMode={true}
-                        clockItemInput={props.clockItem}
-                        callback={setEditMode} />
-                }
-            </div>
+                    <div className="inner-border-left">
+                        {props.clockItem.startTime ?
+                            <h4>{props.clockItem.startTime.split("T")[1].substring(0,5)}</h4>
+                            :
+                            null
+                        }
+                    </div>
+                    <div className="inner-border-left">
+                        {props.clockItem.endTime ?
+                            <h4>{props.clockItem.endTime.split("T")[1].substring(0,5)}</h4>
+                            :
+                            null
+                        }
+                    </div>
+                    <div className="inner-border-left">
+                        {props.clockItem.hours ?
+                            <h4>{props.clockItem.hours}</h4>
+                            :
+                            null
+                        }
+                    </div>
+                    <div className="inner-border-right">
+                        {props.clockItem.invoiced ?
+                            <h4>Yes</h4>
+                            :
+                            <h4>No</h4>
+                        }
+                    </div>
+                    {!props.change ?
+                        <div className="grid50 inner-border-right">
+                            <img className="icon middle" src={edit} onClick={setEditMode}/>
+                            <img className="icon middle" src={trash} onClick={handleDelete}/>
+                        </div>
+                        :
+                        null
+                    }
+                </div>
+                :
+                <ClockItemForm
+                    editMode={true}
+                    clockItemInput={props.clockItem}
+                    callback={setEditMode} />
+            }
         </div>
     )
 }

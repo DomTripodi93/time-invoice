@@ -32,7 +32,7 @@ export function addClockItem(clockItem, callback) {
     return dispatch => {
         http.addItem("clockItem", clockItem)
             .then(addedClockItem => {
-                dispatch(addOrUpdateClockItemInState(addedClockItem.data));
+                dispatch(addOrUpdateClockItemInState(addedClockItem.data, addedClockItem.data.startTime.substring(0,10)));
                 callback();
             });
     }
@@ -43,8 +43,8 @@ export function updateClockItem(clockItem, callback) {
     clockItem = prepClockItemValues(clockItem);
     return dispatch => {
         http.updateItemById("clockItem", clockItem, clockItem._id)
-            .then(() => {
-                dispatch(addOrUpdateClockItemInState(clockItem));
+            .then((updatedClockItem) => {
+                dispatch(addOrUpdateClockItemInState(updatedClockItem.data, updatedClockItem.data.startTime.substring(0,10)));
                 callback();
             }
         );

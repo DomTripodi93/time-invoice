@@ -8,7 +8,14 @@ h4 {
 }
 
 .grid-line {
-    
+    margin-top: none;
+    margin-bottom: none;
+    margin-right: 1%;
+    margin-left: 1%;
+    @media only screen and (max-width: 570px) {
+        margin-left: none;
+        margin-right: none;
+    }
 }
 
 .inner-border-left {

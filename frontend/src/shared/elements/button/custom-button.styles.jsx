@@ -53,14 +53,16 @@ export const CustomizedButton = styled.button`
   }
 
   &.small{
-    font-size: 2vw;
-  
     @media (min-width: 900px) {
-      font-size: 17px;
+      font-size: 14px;
     }
     
-    @media (max-width: 570px) {
-      font-size: 16px;
+    @media (max-width: 900px) {
+      font-size: 2.4vw;
+    }
+    
+    @media (max-width: 700px) {
+      font-size: 3vw;
     }
   }
 
