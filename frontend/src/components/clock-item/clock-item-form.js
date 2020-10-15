@@ -16,18 +16,24 @@ const ClockItemForm = props => {
         invoiced: false
     });
 
-    const { startTime, endTime, customer } = clockItemInfo;
 
     useEffect(() => {
         if (props.editMode) {
-            Object.keys(props.clockItemInput).forEach(key => {
-                if (props.clockItemInput[key] !== null) {
-                    setClockItemInfo({ [key]: props.clockItemInput[key] });
-                }
-            })
-            setClockItemInfo(props.clockItemInput);
+            // Object.keys(props.clockItemInput).forEach(key => {
+            //     if (props.clockItemInput[key] !== null) {
+            //         setClockItemInfo({ [key]: props.clockItemInput[key] });
+            //     }
+            // })
+            setClockItemInfo({
+                ...props.clockItemInput,
+                startTime: props.clockItemInput.startTime.substring(0,16),
+                endTime: props.clockItemInput.endTime.substring(0,16)
+            });
+            console.log(props.clockItemInput)
         }
     }, [props])
+
+    const { startTime, endTime, customer } = clockItemInfo;
 
     const handleSubmit = async event => {
         event.preventDefault();
@@ -50,6 +56,7 @@ const ClockItemForm = props => {
 
     const handleChange = event => {
         const { name, value } = event.target;
+        console.log(clockItemInfo)
 
         setClockItemInfo({ ...clockItemInfo, [name]: value });
     };
@@ -62,7 +69,7 @@ const ClockItemForm = props => {
                 </h3>
                 :
                 <h3 className='centered'>
-                    {props.clockItemInput.customer} - {props.clockItemInput.startTime}
+                    {props.clockItemInput.customer} - {helper.dateForDisplay(props.clockItemInput.startTime)}
                 </h3>
             }
             <form onSubmit={handleSubmit}>

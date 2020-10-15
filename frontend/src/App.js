@@ -33,25 +33,23 @@ const App = (props) => {
   return (
     <div id="page">
       <Header />
-      <div>
-        {authValue ?
-          <Suspense fallback={<Loading />}>
-            <Switch>
-            <Route exact path='/' component={ClockItemContainer} />
-            <Route exact path='/calendar' component={CalendarContainer} />
-              <Route exact path='/signout' component={Signout} />
-            </Switch>
-          </Suspense>
-          :
-          <Suspense fallback={<Loading />}>
-            <Switch>
-              <Route exact path='/' component={Home} />
-              <Route exact path='/register' component={Register} />
-              <Route exact path='/signin' component={Signin} />
-            </Switch>
-          </Suspense>
-        }
-      </div>
+      {authValue ?
+        <Suspense fallback={<Loading />}>
+          <Switch>
+          <Route exact path='/' component={ClockItemContainer} />
+          <Route exact path='/calendar' component={CalendarContainer} />
+            <Route exact path='/signout' component={Signout} />
+          </Switch>
+        </Suspense>
+        :
+        <Suspense fallback={<Loading />}>
+          <Switch>
+            <Route exact path='/' component={Home} />
+            <Route exact path='/register' component={Register} />
+            <Route exact path='/signin' component={Signin} />
+          </Switch>
+        </Suspense>
+      }
     </div>
   );
 };

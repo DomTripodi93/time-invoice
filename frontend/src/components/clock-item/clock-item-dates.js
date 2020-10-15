@@ -32,13 +32,15 @@ const ClockItemDates = props => {
                     </div>
                     <div className='grid100'>
                         {Object.keys(props.clockItems).map(key => (
-                            <div
-                                key={key}
-                            >
-                            <ClockItems
-                                action={props.showClockItemForm}
-                                clockItems={props.clockItems[key]}
-                                date={key} />
+                            <div key={key}>
+                            {props.clockItems[key].length > 0 ?
+                                <ClockItems
+                                    action={props.showClockItemForm}
+                                    clockItems={props.clockItems[key]}
+                                    date={key} />
+                                :
+                                null
+                            }
                             </div>
                         ))}
                     </div>
