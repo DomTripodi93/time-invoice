@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 
 import './header.styles.scss';
 
+import logo from '../assets/logo192.png'
+
 const Header = props => {
     const [authValue, setAuthValue] = useState(props.isAuthenticated);
 
@@ -17,7 +19,7 @@ const Header = props => {
             {authValue ? 
                 <div className='header'>
                     <Link to='/' className='logo-holder'>
-                        <img className='logo-holder' alt='logo' src=""></img>
+                        <img className='logo-holder' alt='logo' src={logo}></img>
                     </Link>
                     <div className='routes'>
                         <Link to='/' className='route'>
@@ -36,7 +38,7 @@ const Header = props => {
                 :
                 <div className='header'>
                     <Link to='/' className='logo-holder'>
-                        <img className='logo-holder' alt='logo' src=""></img>
+                        <img className='logo-holder' alt='logo' src={logo}></img>
                     </Link>
                     <div className='routes'>
                         <Link to='/' className='route'>
