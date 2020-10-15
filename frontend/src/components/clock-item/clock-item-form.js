@@ -9,8 +9,9 @@ import helpers from '../../shared/helpers';
 const ClockItemForm = props => {
     const helper = new helpers();
     const [clockItemInfo, setClockItemInfo] = useState({
-        startTime: helper.getCurrentTimeAndDate(),
-        endTime: helper.getCurrentTimeAndDate(),
+        date: helper.getCurrentDate(),
+        startTime: helper.getCurrentTime(),
+        endTime: helper.getCurrentTime(),
         customer: "",
         hours: 0,
         invoiced: false
@@ -19,26 +20,23 @@ const ClockItemForm = props => {
 
     useEffect(() => {
         if (props.editMode) {
-            // Object.keys(props.clockItemInput).forEach(key => {
-            //     if (props.clockItemInput[key] !== null) {
-            //         setClockItemInfo({ [key]: props.clockItemInput[key] });
-            //     }
-            // })
             setClockItemInfo({
                 ...props.clockItemInput,
-                startTime: props.clockItemInput.startTime.substring(0,16),
-                endTime: props.clockItemInput.endTime.substring(0,16)
+                date: props.clockItemInput.date.split('T')[0],
+                startTime: helper.timeFromDate(props.clockItemInput.startTime),
+                endTime: helper.timeFromDate(props.clockItemInput.endTime)
             });
-            console.log(props.clockItemInput)
         }
     }, [props])
 
-    const { startTime, endTime, customer } = clockItemInfo;
+    const { date, startTime, endTime, customer } = clockItemInfo;
 
     const handleSubmit = async event => {
         event.preventDefault();
         let clockItemToSubmit = {
             ...clockItemInfo, 
+            startTime: [clockItemInfo.date, clockItemInfo.startTime].join("T"),
+            endTime: [clockItemInfo.date, clockItemInfo.endTime].join("T"),
             hours: helper.getHoursDifference(
                 clockItemInfo.startTime,
                 clockItemInfo.endTime)
@@ -56,7 +54,6 @@ const ClockItemForm = props => {
 
     const handleChange = event => {
         const { name, value } = event.target;
-        console.log(clockItemInfo)
 
         setClockItemInfo({ ...clockItemInfo, [name]: value });
     };
@@ -74,15 +71,22 @@ const ClockItemForm = props => {
             }
             <form onSubmit={handleSubmit}>
                 <FormInput
+                    label='Date'
+                    type='date'
+                    name='date'
+                    value={date}
+                    onChange={handleChange}
+                />
+                <FormInput
                     label='Start Time'
-                    type='datetime-local'
+                    type='time'
                     name='startTime'
                     value={startTime}
                     onChange={handleChange}
                 />
                 <FormInput
                     label='End Time'
-                    type='datetime-local'
+                    type='time'
                     name='endTime'
                     value={endTime}
                     onChange={handleChange}

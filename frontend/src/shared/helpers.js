@@ -54,13 +54,27 @@ class helpers {
         return date + hour + ":" + minute;
     }
 
-    getHoursDifference(begin, stop) {
-        let start = new Date(begin);
-        let end = new Date(stop);
-        let startTime = start.getHours() + (start.getMinutes()/60);
-        let endTime = end.getHours() + (end.getMinutes()/60);
+    getCurrentTime() {
+        let hour = "" + new Date().getHours();
+        let minute = "" + new Date().getMinutes();
+        if (+minute < 10) {
+            minute = "0" + minute;
+        }
+        if (+hour < 10) {
+            hour = "0" + hour;
+        }
+        return hour + ":" + minute;
+    }
 
-        return +(endTime - startTime).toFixed(2)
+    getCurrentDate() {
+        let date = new Date().toISOString().slice(0, 10);
+        return date;
+    }
+
+    getHoursDifference(start, end) {
+        let hours = +end.substring(0,2) - start.substring(0,2);
+        let minutes = +end.substring(3,5) - start.substring(3,5);
+        return (hours + (minutes/60)).toFixed(2)
     }
 
     setDateForIso(year, month, day) {

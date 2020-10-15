@@ -4,6 +4,7 @@ const uniqueValidator = require("mongoose-unique-validator");
 
 const clockItemModel = new Schema(
     {
+        date: { type: Date, required: true },
         userId: { type: String, required: true },
         startTime: { type: Date, required: true },
         endTime: { type: Date },

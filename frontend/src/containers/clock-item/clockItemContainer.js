@@ -18,7 +18,6 @@ const ClockItemContainer = (props) => {
     const {startDate, endDate} = dateRange;
 
     useEffect(() => {
-        console.log(startDate)
         if (startDate && endDate) {
             fetchClockItems(startDate, endDate);
         }
