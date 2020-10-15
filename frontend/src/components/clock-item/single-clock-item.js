@@ -10,21 +10,17 @@ import helpers from '../../shared/helpers';
 const SingleClockItem = props => {
     const helper = new helpers()
     const [editMode, updateEditMode] = useState(false);
-
-    const date = helper.dateForDisplayWithDOW(props.date);
-
     const setEditMode = () => {
         updateEditMode(!editMode)
     }
 
     const handleDelete = () => {
         if (window.confirm(
-            "Are you sure you want to delete this clockItem: " +
-            props.clockItem.practice + ": " +
-            props.clockItem.name + "?"
+            "Are you sure you want to delete this clockItem ?" 
         )) {
             props.deleteClockItem(
-                props.clockItem._id
+                props.clockItem._id,
+                props.clockItem.date.split("T")[0]
             );
         }
     }
@@ -34,7 +30,7 @@ const SingleClockItem = props => {
             {!editMode ?
                 <div className='times-grid'>
                     <div className="inner-border-left">
-                        <h5>{date}</h5>
+                        <h5>{helper.dateForDisplayWithDOW(props.clockItem.date)}</h5>
                     </div>
                     <div className="inner-border-left">
                         {props.clockItem.customer ?
@@ -92,7 +88,7 @@ const SingleClockItem = props => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        deleteClockItem: (practice, objectiveName, deptName) => dispatch(deleteClockItem(practice, objectiveName, deptName))
+        deleteClockItem: (id, date) => dispatch(deleteClockItem(id, date))
     }
 }
 

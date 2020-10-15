@@ -36,8 +36,7 @@ const ClockItemDates = props => {
                             {props.clockItems[key].length > 0 ?
                                 <ClockItems
                                     action={props.showClockItemForm}
-                                    clockItems={props.clockItems[key]}
-                                    date={key} />
+                                    clockItems={props.clockItems[key]} />
                                 :
                                 null
                             }

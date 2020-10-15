@@ -52,11 +52,11 @@ export function updateClockItem(clockItem, callback) {
 }
 //Updates clockItem in database
 
-export function deleteClockItem(id) {
+export function deleteClockItem(id, date) {
     return dispatch => {
         http.deleteItemById("clockItem", id)
             .then(() => {
-                dispatch(deleteClockItemFromState(id));
+                dispatch(deleteClockItemFromState(id, date));
             }
         );
     }
@@ -82,10 +82,11 @@ export function setClockItems(clockItems) {
 }
 //Sets all clockItems in state
 
-export function deleteClockItemFromState(id) {
+export function deleteClockItemFromState(id, date) {
     return {
         type: ClockItemActionTypes.DELETE_CLOCK_ITEM,
-        payload: id
+        payload: id,
+        date
     }
 }
 //Deletes selected clockItem

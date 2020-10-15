@@ -6,7 +6,9 @@ function ClockItemController(ClockItem) {
     function post(req, res) {
         const clockItem = new ClockItem(req.body);
         clockItem.userId = req.userId;
-        clockItem.date = dateRegulator(clockItem.date);
+        // clockItem.date = dateRegulator(clockItem.date);
+        clockItem.startTime = dateRegulator(clockItem.startTime);
+        clockItem.endTime = dateRegulator(clockItem.endTime);
         clockItem.save((err) => {
             if (err) {
                 return res.send(err);
@@ -28,7 +30,7 @@ function ClockItemController(ClockItem) {
     function getResultsForPeriod(query) {
         return new Promise((resolve, reject) => {
             ClockItem.find(query)
-                .sort({date: 1})
+                .sort({startTime: 1})
                 .exec((err, clockItems) => {
                 if (err) {
                     return reject(err);

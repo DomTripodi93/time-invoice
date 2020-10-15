@@ -42,7 +42,9 @@ class helpers {
     }
 
     getCurrentTimeAndDate() {
-        let date = new Date().toISOString().slice(0, 11);
+        const timeZoneOffset = (new Date).getTimezoneOffset() * 60000;
+        let date = new Date(new Date() - timeZoneOffset)
+            .toISOString().slice(0, 11);
         let hour = "" + new Date().getHours();
         let minute = "" + new Date().getMinutes();
         if (+minute < 10) {
@@ -67,7 +69,9 @@ class helpers {
     }
 
     getCurrentDate() {
-        let date = new Date().toISOString().slice(0, 10);
+        const timeZoneOffset = (new Date).getTimezoneOffset() * 60000;
+        let date = new Date(new Date() - timeZoneOffset)
+            .toISOString().slice(0, 10);
         return date;
     }
 

@@ -17,7 +17,7 @@ const ClockItemForm = props => {
         invoiced: false
     });
 
-
+console.log(helper.getCurrentDate())
     useEffect(() => {
         if (props.editMode) {
             setClockItemInfo({
@@ -32,6 +32,7 @@ const ClockItemForm = props => {
     const { date, startTime, endTime, customer } = clockItemInfo;
 
     const handleSubmit = async event => {
+        console.log(clockItemInfo)
         event.preventDefault();
         let clockItemToSubmit = {
             ...clockItemInfo, 
@@ -41,6 +42,7 @@ const ClockItemForm = props => {
                 clockItemInfo.startTime,
                 clockItemInfo.endTime)
         }
+        console.log(clockItemToSubmit)
         if (props.editMode) {
             if (clockItemInfo !== props.clockItemInput) {
                 props.updateClockItem(clockItemToSubmit, props.callback);
