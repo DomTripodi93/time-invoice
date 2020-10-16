@@ -6,7 +6,6 @@ function ClockItemController(ClockItem) {
     function post(req, res) {
         const clockItem = new ClockItem(req.body);
         clockItem.userId = req.userId;
-        // clockItem.date = dateRegulator(clockItem.date);
         clockItem.startTime = dateRegulator(clockItem.startTime);
         clockItem.endTime = dateRegulator(clockItem.endTime);
         clockItem.save((err) => {
@@ -95,16 +94,18 @@ function ClockItemController(ClockItem) {
             userId: req.userId,
             _id: req.params._id
         }
-        ClockItem.find(query, (err, clockItems) => {
+        ClockItem.findOne(query, (err, clockItem) => {
             if (err) {
                 return res.send(err);
             }
-            let clockItemForUpdate = clockItems[0].toObject();
+            let clockItemForUpdate = clockItem.toObject();
+            req.body.startTime = dateRegulator(req.body.startTime);
+            req.body.endTime = dateRegulator(req.body.endTime);
             clockItemForUpdate = autoMapper(clockItemForUpdate, req.body);
             ClockItem.updateOne(query, clockItemForUpdate)
                 .then(result => {
                     if (result.nModified > 0) {
-                        return res.status(200).json({ message: "Update Successful" });
+                        return res.status(200).json(clockItemForUpdate);
                     } else {
                         return res.status(500).json({ message: "No Changes" });
                     }
