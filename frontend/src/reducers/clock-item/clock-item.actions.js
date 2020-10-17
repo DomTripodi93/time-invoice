@@ -89,7 +89,7 @@ export function deleteClockItemFromState(id, date) {
         date
     }
 }
-//Deletes selected clockItem
+//Deletes selected clockItem in state
 
 function prepClockItemValues(clockItem) {
     clockItem.practice = helper.capitalizeAll(clockItem.customer);

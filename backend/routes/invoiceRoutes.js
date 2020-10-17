@@ -8,7 +8,8 @@ function routes(Invoice, ClockItem){
     const controller = InvoiceController(Invoice, ClockItem);
 
     router.route("")
-        .post(checkAuth, controller.post);
+        .post(checkAuth, controller.post)
+        .get(checkAuth, controller.getAll);
 
     router.route("/byNumber/:invoiceNumber")
         .get(checkAuth, controller.getByNumber);

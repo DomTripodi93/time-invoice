@@ -3,6 +3,8 @@ import CustomButton from '../../shared/elements/button/custom-button.component';
 import ClockItemForm from './clock-item-form';
 import DateRangeForm from './date-range-form';
 
+import "./clock-items.styles.scss";
+
 const ClockItemNew = (props) => {
     return (
         <div>
@@ -24,7 +26,7 @@ const ClockItemNew = (props) => {
                             action={props.addFormCallback}
                         />
                     </div>
-                    <div className="grid100">
+                    <div className="grid100 date-form">
                         <DateRangeForm 
                             startDate={props.startDate}
                             endDate={props.endDate}

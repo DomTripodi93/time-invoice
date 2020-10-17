@@ -5,21 +5,21 @@ function InvoiceController(Invoice, ClockItem) {
     function post(req, res) {
         const invoice = new Invoice(req.body.invoice);
         let processed = 0;
-        req.body.invoiced.forEach(id => {
+        req.body.clockItems.forEach(id => {
             processed++
             let query = {
                 userId: req.userId,
                 _id: id
             }
-            ClockItem.find(query, (err, clockItems) => {
+            ClockItem.findOne(query, (err, clockItem) => {
                 if (err) {
                     return res.send(err);
                 }
-                let clockItemForUpdate = clockItems[0].toObject();
+                let clockItemForUpdate = clockItem.toObject();
                 clockItemForUpdate.invoiced = true;
                 ClockItem.updateOne(query, clockItemForUpdate)
                     .then(() => {
-                        if (processed === req.body.invoiced.length){
+                        if (processed === req.body.clockItems.length){
                             invoice.userId = req.userId;
                             invoice.date = dateRegulator(invoice.date);
                             invoice.save((err) => {
@@ -68,6 +68,20 @@ function InvoiceController(Invoice, ClockItem) {
         const query = {
             userId: req.userId,
             date: getDateRange(startDate, endDate)
+        }
+        Invoice.find(query)
+            .sort({date: 1})
+            .exec((err, invoices) => {
+            if (err) {
+                return res.send(err);
+            }
+            return res.json(invoices);
+        });
+    };
+
+    function getAll(req, res) {
+        const query = {
+            userId: req.userId
         }
         Invoice.find(query)
             .sort({date: 1})
@@ -137,7 +151,7 @@ function InvoiceController(Invoice, ClockItem) {
         });
     }
 
-    return { post, getByPeriod, getByNumber, put, deleteInvoice }
+    return { post, getByPeriod, getAll, getByNumber, put, deleteInvoice }
 }
 
 module.exports = InvoiceController;
