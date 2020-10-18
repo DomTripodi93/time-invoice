@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { fetchClockItemsByDate } from '../../reducers/clock-item/clock-item.actions';
+import { fetchClockItemsByDate, fetchClockItemsByDateAndInvoiced } from '../../reducers/clock-item/clock-item.actions';
 import ClockItemNew from '../../components/clock-item/clock-item-new';
-
-import { fetchClockItemsByDateAndInvoiced } from '../../reducers/clock-item/clock-item.actions';
 import ClockItemDates from '../../components/clock-item/clock-item-dates';
+
+import "./clock-items.styles.scss";
+
 
 const ClockItemContainer = (props) => {
     const thisMonth = new Date().getMonth();
     const thisYear = new Date().getFullYear();
     const [addMode, setAddMode] = useState(false);
-    const fetchClockItems = props.fetchClockItems;
+    const fetchClockItems = props.fetchClockItemsByDate;
     const [dateRange, setDateRange] = useState({
         startDate: new Date(thisYear, thisMonth, 1).toJSON().split('T')[0],
         endDate:  new Date(thisYear, thisMonth+1, 0).toJSON().split('T')[0]
@@ -53,7 +54,7 @@ const ClockItemContainer = (props) => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        fetchClockItems: (startDate, endDate) => dispatch(fetchClockItemsByDate(startDate, endDate)),
+        fetchClockItemsByDate: (startDate, endDate) => dispatch(fetchClockItemsByDate(startDate, endDate)),
         fetchClockItemsInvoiced: (startDate, endDate, invoiced) => 
             dispatch(fetchClockItemsByDateAndInvoiced(startDate, endDate, invoiced))
     }

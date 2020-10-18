@@ -3,36 +3,48 @@ const autoMapper = require("../middleware/autoMapper");
 function InvoiceController(Invoice, ClockItem) {
 
     function post(req, res) {
-        const invoice = new Invoice(req.body.invoice);
+        const invoice = new Invoice(req.body);
         let processed = 0;
-        req.body.clockItems.forEach(id => {
-            processed++
-            let query = {
-                userId: req.userId,
-                _id: id
+
+        invoice.userId = req.userId;
+        invoice.dateRange = req.params.startDate + "-" + req.params.endDate;
+        invoice.save((err) => {
+            if (err) {
+                console.log(err)
+                return res.send({error: err});
             }
-            ClockItem.findOne(query, (err, clockItem) => {
+        });
+
+        let clockItemsQuery = {
+            userId: req.userId,
+            startTime: getDateRange(req.params.startDate, req.params.endDate)
+        }
+        ClockItem.find(clockItemsQuery)
+            .exec((err, clockItems) => {
                 if (err) {
                     return res.send(err);
                 }
-                let clockItemForUpdate = clockItem.toObject();
-                clockItemForUpdate.invoiced = true;
-                ClockItem.updateOne(query, clockItemForUpdate)
-                    .then(() => {
-                        if (processed === req.body.clockItems.length){
-                            invoice.userId = req.userId;
-                            invoice.date = dateRegulator(invoice.date);
-                            invoice.save((err) => {
-                                if (err) {
-                                    return res.send(err);
-                                }
+                clockItems.forEach(clockItem => {
+                    if (err) {
+                        return res.send(err);
+                    }
+                    processed++
+                    let clockItemForUpdate = clockItem.toObject();
+                    let updateQuery = {
+                        userId: req.userId,
+                        _id: clockItemForUpdate._id
+                    }
+                    clockItemForUpdate.invoiced = false;
+                    clockItemForUpdate.invoiceNumber = invoice.invoiceNumber;
+                    ClockItem.updateOne(updateQuery, clockItemForUpdate)
+                        .then(() => {
+                            if (processed === clockItems.length){
                                 res.status(201);
                                 return res.json(invoice);
-                            });
-                        }
-                    });
-            });
-        });
+                            }
+                        });
+                });
+            })
     };
 
     function getDateRange(startDate, endDate) {
@@ -63,12 +75,14 @@ function InvoiceController(Invoice, ClockItem) {
     };
 
     function getByPeriod(req, res) {
+        console.log("1")
         const startDate = req.params.startDate;
         const endDate = req.params.endDate;
         const query = {
             userId: req.userId,
             date: getDateRange(startDate, endDate)
         }
+        console.log(query)
         Invoice.find(query)
             .sort({date: 1})
             .exec((err, invoices) => {
@@ -78,21 +92,6 @@ function InvoiceController(Invoice, ClockItem) {
             return res.json(invoices);
         });
     };
-
-    function getAll(req, res) {
-        const query = {
-            userId: req.userId
-        }
-        Invoice.find(query)
-            .sort({date: 1})
-            .exec((err, invoices) => {
-            if (err) {
-                return res.send(err);
-            }
-            return res.json(invoices);
-        });
-    };
-
 
     function put(req, res) {
         const query = {
@@ -151,7 +150,7 @@ function InvoiceController(Invoice, ClockItem) {
         });
     }
 
-    return { post, getByPeriod, getAll, getByNumber, put, deleteInvoice }
+    return { post, getByPeriod, getByNumber, put, deleteInvoice }
 }
 
 module.exports = InvoiceController;

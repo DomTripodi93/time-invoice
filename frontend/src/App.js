@@ -6,6 +6,7 @@ import './App.scss';
 import { checkUser } from './reducers/user/user.actions';
 import Header from './shared/header/header';
 import Loading from './shared/elements/loading/loading';
+import InvoiceContainer from './containers/invoice/invoice.container';
 
 
 const Home = lazy(() => import('./containers/home/home'));
@@ -13,8 +14,8 @@ const Home = lazy(() => import('./containers/home/home'));
 const Register = lazy(() => import('./containers/registration/registration'));
 const Signin = lazy(() => import('./containers/registration/signin'));
 const Signout = lazy(() => import('./containers/registration/signout'));
-const CalendarContainer = lazy(()=> import('./containers/calendar/calendarContainer'));
-const ClockItemContainer = lazy(()=> import('./containers/clock-item/clockItemContainer'));
+const CalendarContainer = lazy(()=> import('./containers/calendar/calendar.container'));
+const ClockItemContainer = lazy(()=> import('./containers/clock-item/clockItem.container'));
 
 
 const App = (props) => {
@@ -36,8 +37,9 @@ const App = (props) => {
       {authValue ?
         <Suspense fallback={<Loading />}>
           <Switch>
-          <Route exact path='/' component={ClockItemContainer} />
-          <Route exact path='/calendar' component={CalendarContainer} />
+            <Route exact path='/' component={ClockItemContainer} />
+            <Route exact path='/calendar' component={CalendarContainer} />
+            <Route exact path='/invoice' component={InvoiceContainer} />
             <Route exact path='/signout' component={Signout} />
           </Switch>
         </Suspense>

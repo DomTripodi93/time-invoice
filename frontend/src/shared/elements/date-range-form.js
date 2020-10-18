@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import CustomButton from '../../shared/elements/button/custom-button.component';
+import CustomButton from './button/custom-button.component';
 
 
 const DateRangeForm = props => {

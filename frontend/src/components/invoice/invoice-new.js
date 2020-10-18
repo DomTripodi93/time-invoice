@@ -1,16 +1,16 @@
 import React from 'react';
 import CustomButton from '../../shared/elements/button/custom-button.component';
-import ClockItemForm from './clock-item-form';
+import InvoiceForm from './invoice-form';
 import DateRangeForm from '../../shared/elements/date-range-form';
 
 
-const ClockItemNew = (props) => {
+const InvoiceNew = (props) => {
     return (
         <div>
             {props.addMode ?
                 <div>
                     <div className='border'>
-                        <ClockItemForm
+                        <InvoiceForm
                             callback={props.addFormCallback}
                             editMode={false} />
                     </div>
@@ -21,7 +21,7 @@ const ClockItemNew = (props) => {
                     <div className='full-button'>
                         <CustomButton
                             buttonStyle="blue round"
-                            label="Add Time"
+                            label="Add Invoice"
                             action={props.addFormCallback}
                         />
                     </div>
@@ -37,4 +37,4 @@ const ClockItemNew = (props) => {
     )
 }
 
-export default ClockItemNew;
+export default InvoiceNew;

@@ -8,20 +8,21 @@ const invoiceReducer = (state = INITIAL_STATE, action) => {
     let invoicesHold = [...state.invoices]
     switch (action.type) {
         case InvoiceActionTypes.SET_INVOICES:
+            console.log("&")
             return {
                 ...state,
                 invoices: action.payload.data
             };
         case InvoiceActionTypes.ADD_OR_UPDATE_INVOICES:
-            if (invoicesHold[action.date]){
-                invoicesHold[action.date] = [
+            if (invoicesHold){
+                invoicesHold = [
                     action.payload,
                     ...invoicesHold
                         .filter((value) => {
                             return value._id !== action.payload._id
                         })]
                     .sort((first, second) => {
-                        if (first.startTime < second.startTime) {
+                        if (first.date < second.date) {
                             return -1
                         } else {
                             return 1
@@ -33,7 +34,7 @@ const invoiceReducer = (state = INITIAL_STATE, action) => {
                 invoices: invoicesHold
             };
         case InvoiceActionTypes.DELETE_INVOICE:
-            invoicesHold[action.date] = [
+            invoicesHold = [
                 ...invoicesHold
                     .filter((value) => {
                         return value._id !== action.payload
@@ -44,7 +45,7 @@ const invoiceReducer = (state = INITIAL_STATE, action) => {
             };
         case InvoiceActionTypes.SIGNOUT_USER:
             return {
-                invoices: {}
+                invoices: []
             };
         default:
             return state;

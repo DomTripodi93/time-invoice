@@ -6,8 +6,11 @@ const invoiceModel = new Schema(
     {
         userId: { type: mongoose.Schema.Types.ObjectId, required: true, unique: false },
         invoiceNumber: { type: Number, required: true, unique: false },
+        customer: { type: String },
+        dateRange: { type: String, required: true },
+        date: { type: Date, required: true },
         hours: { type: Number },
-        invoiced: { type: Boolean }
+        paid: { type: Boolean }
     }
 );
 

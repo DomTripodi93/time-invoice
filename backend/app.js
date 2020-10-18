@@ -10,7 +10,7 @@ const authRoutes = require("./routes/authRoutes")(User);
 const userRoutes = require("./routes/userRoutes")(User);
 const ClockItem = require("./models/clockItemModel");
 const clockItemRoutes = require("./routes/clockItemRoutes")(ClockItem);
-const Invoice = require("./models/clockItemModel");
+const Invoice = require("./models/invoiceModel");
 const invoiceRoutes = require("./routes/invoiceRoutes")(Invoice, ClockItem);
 
 const app = express();

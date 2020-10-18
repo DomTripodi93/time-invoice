@@ -1,21 +1,11 @@
-import rootHttp from '../root-http';
 import InvoiceActionTypes from './invoice.types';
 import helpers from '../../shared/helpers';
+import rootHttp from '../root-http';
 
 
 const http = new rootHttp();
 const helper = new helpers();
 
-
-export function fetchAllInvoices() {
-    return dispatch => {
-        http.fetchAll("invoice/")
-            .then((invoices) => {
-                dispatch(setInvoices(invoices));
-            });
-    }
-}
-//Gets all invoices for a given date range
 
 export function fetchInvoicesByDate(startDate, endDate) {
     return dispatch => {
@@ -27,13 +17,14 @@ export function fetchInvoicesByDate(startDate, endDate) {
 }
 //Gets all invoices for a given date range
 
-
-export function addInvoice(invoice, callback) {
+export function addInvoice(invoice, dates, callback) {
     invoice = prepInvoiceValues(invoice);
     return dispatch => {
-        http.addItem("invoice", invoice)
+        http.addItem("invoice/" + dates.startDate + "/" + dates.endDate, invoice)
             .then(addedInvoice => {
-                dispatch(addOrUpdateInvoiceInState(addedInvoice.data, addedInvoice.data.startTime.substring(0,10)));
+                dispatch(addOrUpdateInvoiceInState(
+                    addedInvoice.data
+                ));
                 callback();
             });
     }
@@ -45,7 +36,7 @@ export function updateInvoice(invoice, callback) {
     return dispatch => {
         http.updateItemById("invoice", invoice, invoice._id)
             .then((updatedInvoice) => {
-                dispatch(addOrUpdateInvoiceInState(updatedInvoice.data, updatedInvoice.data.startTime.substring(0,10)));
+                dispatch(addOrUpdateInvoiceInState(updatedInvoice.data));
                 callback();
             }
         );
@@ -53,11 +44,11 @@ export function updateInvoice(invoice, callback) {
 }
 //Updates invoice in database
 
-export function deleteInvoice(id, date) {
+export function deleteInvoice(id) {
     return dispatch => {
         http.deleteItemById("invoice", id)
             .then(() => {
-                dispatch(deleteInvoiceFromState(id, date));
+                dispatch(deleteInvoiceFromState(id));
             }
         );
     }
@@ -66,11 +57,10 @@ export function deleteInvoice(id, date) {
 
 
 
-export function addOrUpdateInvoiceInState(invoice, date) {
+export function addOrUpdateInvoiceInState(invoice) {
     return {
         type: InvoiceActionTypes.ADD_OR_UPDATE_INVOICES,
-        payload: invoice,
-        date
+        payload: invoice
     }
 }
 //Adds or Updates invoice in state
@@ -83,11 +73,10 @@ export function setInvoices(invoices) {
 }
 //Sets all invoices in state
 
-export function deleteInvoiceFromState(id, date) {
+export function deleteInvoiceFromState(id) {
     return {
         type: InvoiceActionTypes.DELETE_INVOICE,
-        payload: id,
-        date
+        payload: id
     }
 }
 //Deletes selected invoice in state

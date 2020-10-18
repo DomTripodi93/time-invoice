@@ -7,14 +7,13 @@ function routes(Invoice, ClockItem){
     const router = express.Router();
     const controller = InvoiceController(Invoice, ClockItem);
 
-    router.route("")
+    router.route("/:startDate/:endDate")
         .post(checkAuth, controller.post)
-        .get(checkAuth, controller.getAll);
 
     router.route("/byNumber/:invoiceNumber")
         .get(checkAuth, controller.getByNumber);
 
-    router.route("/byDateRange/:startDate&:endDate")
+    router.route("/byDateRange/:startDate/:endDate")
         .get(checkAuth, controller.getByPeriod);
     
     router.route("/:_id")

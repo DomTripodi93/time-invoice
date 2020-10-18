@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
-import CustomButton from '../../shared/elements/button/custom-button.component';
-import ClockItemForm from './clock-item-form';
-import { deleteClockItem } from '../../reducers/clock-item/clock-item.actions';
+import InvoiceForm from './invoice-form';
+import { deleteInvoice } from '../../reducers/invoice/invoice.actions';
 import { connect } from 'react-redux';
 import edit from '../../shared/assets/Edit.png';
 import trash from '../../shared/assets/Trash.png';
 import helpers from '../../shared/helpers';
 
-const SingleClockItem = props => {
+const SingleInvoice = props => {
     const helper = new helpers()
     const [editMode, updateEditMode] = useState(false);
     const setEditMode = () => {
@@ -16,11 +15,10 @@ const SingleClockItem = props => {
 
     const handleDelete = () => {
         if (window.confirm(
-            "Are you sure you want to delete this clockItem ?" 
+            "Are you sure you want to delete this invoice ?" 
         )) {
-            props.deleteClockItem(
-                props.clockItem._id,
-                props.clockItem.date.split("T")[0]
+            props.deleteInvoice(
+                props.invoice._id
             );
         }
     }
@@ -28,40 +26,40 @@ const SingleClockItem = props => {
     return (
         <div className='centered'>
             {!editMode ?
-                <div className='times-grid'>
+                <div className='invoice-grid grid-line'>
                     <div className="inner-border-left">
-                        <h5>{helper.dateForDisplayWithDOW(props.clockItem.date)}</h5>
+                        <h5>{helper.dateForDisplayWithDOW(props.invoice.date)}</h5>
                     </div>
                     <div className="inner-border-left">
-                        {props.clockItem.customer ?
-                            <h5>{props.clockItem.customer}</h5>
+                        {props.invoice.invoiceNumber ?
+                            <h5>{props.invoice.invoiceNumber}</h5>
                             :
                             null
                         }
                     </div>
                     <div className="inner-border-left">
-                        {props.clockItem.startTime ?
-                            <h5>{helper.timeForDisplay(helper.timeFromDate(props.clockItem.startTime))}</h5>
+                        {props.invoice.customer ?
+                            <h5>{props.invoice.customer}</h5>
                             :
                             null
                         }
                     </div>
                     <div className="inner-border-left">
-                        {props.clockItem.endTime ?
-                            <h5>{helper.timeForDisplay(helper.timeFromDate(props.clockItem.endTime))}</h5>
+                        {props.invoice.endTime ?
+                            <h5>{props.invoice.range}</h5>
                             :
                             null
                         }
                     </div>
                     <div className="inner-border-left">
-                        {props.clockItem.hours ?
-                            <h5>{props.clockItem.hours}</h5>
+                        {props.invoice.hours ?
+                            <h5>{props.invoice.hours}</h5>
                             :
                             null
                         }
                     </div>
                     <div className="inner-border-right">
-                        {props.clockItem.invoiced ?
+                        {props.invoice.paid ?
                             <h5>Yes</h5>
                             :
                             <h5>No</h5>
@@ -77,9 +75,9 @@ const SingleClockItem = props => {
                     }
                 </div>
                 :
-                <ClockItemForm
+                <InvoiceForm
                     editMode={true}
-                    clockItemInput={props.clockItem}
+                    invoiceInput={props.invoice}
                     callback={setEditMode} />
             }
         </div>
@@ -88,8 +86,8 @@ const SingleClockItem = props => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        deleteClockItem: (id, date) => dispatch(deleteClockItem(id, date))
+        deleteInvoice: (id) => dispatch(deleteInvoice(id))
     }
 }
 
-export default connect(null, mapDispatchToProps)(SingleClockItem);
+export default connect(null, mapDispatchToProps)(SingleInvoice);

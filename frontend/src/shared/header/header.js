@@ -25,6 +25,9 @@ const Header = props => {
                         <Link to='/' className='route'>
                             Times
                         </Link>
+                        <Link to='/invoice' className='route'>
+                            Invoice
+                        </Link>
                         <Link to='/calendar' className='route'>
                             Calendar
                         </Link>
