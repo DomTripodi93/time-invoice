@@ -67,13 +67,14 @@ const SingleClockItem = props => {
                             <h5>No</h5>
                         }
                     </div>
-                    {!props.change ?
+                    {!props.change && !props.clockItem.invoiced ?
                         <div className="grid50 inner-border-right">
                             <img className="icon middle" src={edit} onClick={setEditMode}/>
                             <img className="icon middle" src={trash} onClick={handleDelete}/>
                         </div>
                         :
-                        null
+                        <div className="grid50 inner-border-right">
+                        </div>
                     }
                 </div>
                 :
