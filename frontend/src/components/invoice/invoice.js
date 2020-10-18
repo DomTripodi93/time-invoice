@@ -45,8 +45,8 @@ const SingleInvoice = props => {
                         }
                     </div>
                     <div className="inner-border-left">
-                        {props.invoice.endTime ?
-                            <h5>{props.invoice.range}</h5>
+                        {props.invoice.dateRange ?
+                            <h5 className="date-range">{props.invoice.dateRange}</h5>
                             :
                             null
                         }
@@ -67,8 +67,8 @@ const SingleInvoice = props => {
                     </div>
                     {!props.change ?
                         <div className="grid50 inner-border-right">
-                            <img className="icon middle" src={edit} onClick={setEditMode}/>
-                            <img className="icon middle" src={trash} onClick={handleDelete}/>
+                            <img className="icon" src={edit} onClick={setEditMode}/>
+                            <img className="icon" src={trash} onClick={handleDelete}/>
                         </div>
                         :
                         null

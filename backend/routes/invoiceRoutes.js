@@ -18,9 +18,7 @@ function routes(Invoice, ClockItem){
     
     router.route("/:_id")
         .put(checkAuth, controller.put)
-    
-    router.route("/delete/:_id")
-        .put(checkAuth, controller.deleteInvoice);
+        .delete(checkAuth, controller.deleteInvoice);
 
     return router;
 }

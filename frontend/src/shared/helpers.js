@@ -114,6 +114,11 @@ class helpers {
         return time;
     }
 
+    shortDate(date) {
+        let dateArr = date.split("T")[0].split("-");
+        return [+dateArr[1], +dateArr[2], +dateArr[0].substring(0,2)].join("/") ;
+    }
+
     dateForDisplay(date) {
         let dateArr = date.split("T")[0].split("-");
         return [+dateArr[1], +dateArr[2], +dateArr[0]].join("-") ;

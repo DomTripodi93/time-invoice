@@ -13,7 +13,8 @@ const InvoiceForm = props => {
         date: helper.getCurrentDate(),
         customer: "",
         hours: 0,
-        paid: false
+        paid: false,
+        dateRange: ""
     });
 
     const [dateRage, setDateRange] = useState({
@@ -36,15 +37,17 @@ const InvoiceForm = props => {
     const { startDate, endDate } = dateRage;
 
     const handleSubmit = async event => {
+        let invoice = {...invoiceInfo};
+        invoice.dateRange = helper.shortDate(dateRage.startDate) + " thru " + helper.shortDate(dateRage.endDate);
         event.preventDefault();
         if (props.editMode) {
-            if (invoiceInfo !== props.invoiceInput) {
-                props.updateInvoice(invoiceInfo, props.callback);
+            if (invoice !== props.invoice) {
+                props.updateInvoice(invoice, props.callback);
             } else {
                 props.callback();
             }
         } else {
-            props.addInvoice(invoiceInfo, dateRage, props.callback);
+            props.addInvoice(invoice, dateRage, props.callback);
         }
     };
 
@@ -55,7 +58,6 @@ const InvoiceForm = props => {
     };
 
     const handleDateRangeChange = event => {
-        console.log('hit')
         const { name, value } = event.target;
 
         setDateRange({ ...dateRage, [name]: value });
