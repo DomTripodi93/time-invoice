@@ -1,4 +1,4 @@
-function userController(User) {
+function userController(User, Settings) {
     function getUserData(req, res) {
         const query = {
             _id: req.userId

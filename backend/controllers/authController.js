@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 
 const env = require("../.env/env");
 
-function authController (User) {
+function authController (User, Settings) {
     function postRegister(req, res ) {
         bcrypt.hash(req.body.password, 10).then(hash => {
           const user = new User({
@@ -12,14 +12,23 @@ function authController (User) {
           });
           user.save()
             .then(result => {
-              return res.status(201).json({
-                message: "User created!",
-                result: {
-                    id: result._id,
-                    email: result.email,
-                    name: result.name
-                }
+              let userSettings = new Settings({
+                userId: result._id,
+                defaultEmail: result.email,
+                defaultPointOfContact: result.name,
+                lastInvoiceNumber: 1
               });
+              userSettings.save()
+                .then(() => {
+                  return res.status(201).json({
+                    message: "User created!",
+                    result: {
+                      id: result._id,
+                      email: result.email,
+                      name: result.name
+                    }
+                  });
+                });
             })
             .catch(err => {
               return res.status(500).json({

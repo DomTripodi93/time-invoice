@@ -5,13 +5,15 @@ const mongoose = require("mongoose");
 
 const env = require("./.env/env");
 
+const Settings = require('./models/settingsModel');
 const User = require("./models/userModel");
-const authRoutes = require("./routes/authRoutes")(User);
-const userRoutes = require("./routes/userRoutes")(User);
+const authRoutes = require("./routes/authRoutes")(User, Settings);
+const userRoutes = require("./routes/userRoutes")(User, Settings);
 const ClockItem = require("./models/clockItemModel");
 const clockItemRoutes = require("./routes/clockItemRoutes")(ClockItem);
 const Invoice = require("./models/invoiceModel");
 const invoiceRoutes = require("./routes/invoiceRoutes")(Invoice, ClockItem);
+const Customer = require("./models/customerModel");
 
 const app = express();
 
