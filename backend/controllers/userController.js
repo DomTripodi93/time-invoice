@@ -1,33 +1,29 @@
+const autoMapper = require("../middleware/autoMapper");
+
 function userController(User, Settings) {
     function getUserData(req, res) {
         const query = {
-            _id: req.userId
+            userId: req.userId
         }
-        User.find(query, (err, user) => {
+        Settings.findOne(query, (err, settings) => {
             if (err) {
                 return res.send(err);
             }
-            let userForReturn = user[0].toObject();
-            delete userForReturn.password;
-            return res.json(userForReturn);
+            return res.json(settings);
         })
     };
 
 
     function put(req, res) {
         const query = {
-            _id: req.params._id
+            userId: req.userId
         }
-        User.find(query, (err, users) => {
+        Settings.findOne(query, (err, settings) => {
             if (err) {
                 return res.send(err);
             }
-            let userForUpdate = users[0].toObject();
-            let keys = ["name", "email", "deptName", "canEdit", "title"];
-            keys.forEach(key =>{
-                userForUpdate[key] = req.body[key];
-            })
-            User.updateOne(query, userForUpdate)
+            let settingsForUpdate = autoMapper(settings.toObject(), req.body);
+            settingsForUpdate.save()
                 .then(result => {
                     if (result.nModified > 0) {
                         return res.status(200).json({ message: "Update Successful" });

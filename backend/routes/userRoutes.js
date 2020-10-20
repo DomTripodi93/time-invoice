@@ -8,7 +8,8 @@ function routes(User, Settings){
     const controller = userController(User, Settings);
 
     router.route("")
-        .get(checkAuth, controller.getUserData);
+        .get(checkAuth, controller.getUserData)
+        .put(checkAuth, controller.put);
 
     return router;
 }
