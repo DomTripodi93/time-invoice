@@ -67,8 +67,8 @@ const SingleInvoice = props => {
                     </div>
                     {!props.change ?
                         <div className="grid50 inner-border-right">
-                            <img className="icon" src={edit} onClick={setEditMode}/>
-                            <img className="icon" src={trash} onClick={handleDelete}/>
+                            <img alt="edit" className="icon" src={edit} onClick={setEditMode}/>
+                            <img alt="delete" className="icon" src={trash} onClick={handleDelete}/>
                         </div>
                         :
                         null

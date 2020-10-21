@@ -27,7 +27,6 @@ const ClockItemDates = props => {
                             <h5 className="grid-header-text">Invoiced</h5>
                         </div>
                         <div className="inner-border-right-header">
-                            <h5 className="grid-header-text"></h5>
                         </div>
                     </div>
                     <div className='grid100'>

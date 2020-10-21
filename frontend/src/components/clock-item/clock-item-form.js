@@ -26,7 +26,7 @@ const ClockItemForm = props => {
                 endTime: helper.timeFromDate(props.clockItemInput.endTime)
             });
         }
-    }, [props])
+    }, [props, helper])
 
     const { date, startTime, endTime, customer } = clockItemInfo;
 

@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import CustomButton from '../../shared/elements/button/custom-button.component';
 import ClockItemForm from './clock-item-form';
 import { deleteClockItem } from '../../reducers/clock-item/clock-item.actions';
 import { connect } from 'react-redux';
@@ -69,8 +68,8 @@ const SingleClockItem = props => {
                     </div>
                     {!props.change && !props.clockItem.invoiced ?
                         <div className="grid50 inner-border-right">
-                            <img className="icon middle" src={edit} onClick={setEditMode}/>
-                            <img className="icon middle" src={trash} onClick={handleDelete}/>
+                        <img alt="edit" className="icon" src={edit} onClick={setEditMode}/>
+                        <img alt="delete" className="icon" src={trash} onClick={handleDelete}/>
                         </div>
                         :
                         <div className="grid50 inner-border-right">

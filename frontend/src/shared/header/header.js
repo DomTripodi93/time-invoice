@@ -33,6 +33,9 @@ const Header = props => {
                         </Link>
                     </div>
                     <div className='edge'>
+                        <Link to='/settings' className='route'>
+                            Settings
+                        </Link>
                         <Link to='/signout' className='route'>
                             Log Out
                         </Link>

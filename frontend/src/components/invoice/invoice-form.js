@@ -31,7 +31,7 @@ const InvoiceForm = props => {
                 endTime: helper.timeFromDate(props.invoiceInput.endTime)
             });
         }
-    }, [props])
+    }, [props, helper])
 
     const { date, customer } = invoiceInfo;
     const { startDate, endDate } = dateRage;

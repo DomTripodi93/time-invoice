@@ -3,10 +3,10 @@ import { connect } from 'react-redux';
 
 
 const SettingsContainer = (props) => {
-    
+    const addMode = {}
 
     const showSettingForm = () => {
-        setAddMode(!addMode)
+        
     }
 
     return (
