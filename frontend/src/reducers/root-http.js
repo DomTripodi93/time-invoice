@@ -53,6 +53,13 @@ class rootHttp {
     }
     //Updates selected item
 
+    updateItemByUser(model, data) {
+        return axios.put(
+            this.rootUrl + '/' + model, data, { headers: this.headers }
+        );
+    }
+    //Updates selected item
+
     updateItemById(model, data, id) {
         return axios.put(
             this.rootUrl + '/' + model + '/' + id, data, { headers: this.headers }

@@ -4,9 +4,7 @@ const INITIAL_STATE = {
     userToken: null,
     userId: null,
     isAuthenticated: false,
-    defaultEmail: null,
-    defaultPointOfContact: null,
-    lastInvoiceNumber: null
+    settings: {}
 }
 
 const userReducer = (state = INITIAL_STATE, action) => {
@@ -17,18 +15,19 @@ const userReducer = (state = INITIAL_STATE, action) => {
                 userToken: action.payload.token,
                 userId: action.payload.id,
                 isAuthenticated: true,
-                defaultEmail: action.payload.defaultEmail,
-                defaultPointOfContact: action.payload.defaultPointOfContact,
-                lastInvoiceNumber: action.payload.lastInvoiceNumber
+                settings: action.settings
+            };
+        case UserActionTypes.UPDATE_SETTINGS:
+            return {
+                ...state,
+                settings: action.settings
             };
         case UserActionTypes.SIGNOUT_USER:
             return {
                 userToken: null,
                 userId: null,
                 isAuthenticated: false,
-                defaultEmail: null,
-                defaultPointOfContact: null,
-                lastInvoiceNumber: null
+                settings: {}
             };
         default:
             return state;

@@ -18,19 +18,20 @@ export const signInUser = (user, callback) => {
     return dispatch => {
         http.addItem("auth/login", user)
             .then(response => {
-                dispatch(setUserData(response.data));
+                dispatch(setUserData(response.data, {}));
                 callback();
             })
     }
 };
 
-export const setUserData = (user) => {
+export const setUserData = (user, settings) => {
     localStorage.setItem('token', user.token);
     localStorage.setItem('id', user.id);
 
     return {
         type: UserActionTypes.SIGNIN_USER,
-        payload: user
+        payload: user,
+        settings
     };
 };
 
@@ -47,15 +48,12 @@ export const signOutUser = (callback) => {
 export const checkUser = (id, token) => {
     return dispatch => {
         http.fetchAll("user")
-            .then((user) => {
+            .then((settings) => {
                 dispatch(
                     setUserData({
                         token,
-                        id,
-                        defaultEmail: user.data.defaultEmail,
-                        defaultPointOfContact: user.data.defaultPointOfContact,
-                        lastInvoiceNumber: user.data.lastInvoiceNumber
-                    })
+                        id
+                    }, settings.data)
                 )
             })
             .catch(() => {
@@ -68,9 +66,21 @@ export const checkUser = (id, token) => {
 
 export const updateSettings = (settingsForUpdate) => {
     return dispatch => {
-
+        http.updateItemByUser("user", settingsForUpdate)
+            .then((settings) => {
+                dispatch(
+                    updateSettingsInState(settings.data)
+                )
+            })
     }
 }
+
+export const updateSettingsInState = (settings) => {
+    return {
+        type: UserActionTypes.UPDATE_SETTINGS,
+        settings
+    };
+};
 
 export const callTest = () => {
     http.fetchAll("test");

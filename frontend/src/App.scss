@@ -39,6 +39,10 @@ a, ul{
   }
 }
 
+.slight-drop{
+  margin-top: 5px;
+}
+
 .bodySize{
   height: 100%;
 }
@@ -49,6 +53,10 @@ a, ul{
 
 .left-side{
   margin-left: 50px;
+}
+
+.right-align{
+  text-align: right;
 }
 
 .long{
@@ -144,6 +152,11 @@ a, ul{
 .grid50 { 
   display: grid;
   grid-template-columns: 50% 50%;
+}
+
+.grid90 { 
+  display: grid;
+  grid-template-columns: 87% 13%;
 }
 
 .grid80mid { 

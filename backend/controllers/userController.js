@@ -23,10 +23,10 @@ function userController(User, Settings) {
                 return res.send(err);
             }
             let settingsForUpdate = autoMapper(settings.toObject(), req.body);
-            settingsForUpdate.save()
+            Settings.updateOne(query, settingsForUpdate)
                 .then(result => {
                     if (result.nModified > 0) {
-                        return res.status(200).json({ message: "Update Successful" });
+                        return res.status(200).json(settingsForUpdate);
                     } else {
                         return res.status(500).json({ message: "No Changes" });
                     }
