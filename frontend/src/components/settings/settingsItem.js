@@ -12,7 +12,7 @@ import '../../containers/invoice/invoice.styles.scss';
 const SettingsItem = (props) => {
     const setting = props.setting[props.keyVal];
     const [addMode, setAddMode] = useState(false);
-    const [settingsInfo, setSettings] = useState({...props.setting})
+    const [settingsInfo, setSettings] = useState({[props.keyVal]: null, ...props.setting})
 
     const showSettingForm = () => {
         setAddMode(!addMode);
@@ -31,53 +31,58 @@ const SettingsItem = (props) => {
 
     return (
         <div>
-            {setting ?
-                <div className="grid90">
-                    {addMode ?
-                        <div className="inner-border-left">
-                            <div className="slight-drop">
-                                <FormInput
-                                    className="slight-drop"
-                                    label=""
-                                    type='text'
-                                    name={props.keyVal}
-                                    value={settingsInfo[props.keyVal]}
-                                    onChange={handleChange} />
-                            </div>
-                        </div>
-                        :
-                        <div className="inner-border-left">
+            <hr />
+            <h4 className="centered">{props.title}</h4>
+            <hr />
+            <div className="grid90">
+                {addMode ?
+                    <div>
+                        <form onSubmit={submitSettingsForUpdate} className="slight-drop">
+                            <FormInput
+                                className="slight-drop"
+                                label={props.title}
+                                type='text'
+                                name={props.keyVal}
+                                value={settingsInfo[props.keyVal]}
+                                onChange={handleChange} />
+                        </form>
+                    </div>
+                    :
+                    <div>
+                        {setting ?
                             <h5>
                                 {setting}
                             </h5>
-                        </div>
-                    }
-                    {addMode ?
-                        <div className="grid50 inner-border-right">
-                            <img 
-                                className="icon" 
-                                onClick={submitSettingsForUpdate}
-                                src={save}
-                                alt="save" />
+                            :
+                            <h5>
+                                Please add your {props.title}
+                            </h5>
+                        }
+                    </div>
+                }
+                {addMode ?
+                    <div className="grid50">
+                        <img 
+                            className="icon" 
+                            onClick={submitSettingsForUpdate}
+                            src={save}
+                            alt="save" />
+                        <img 
+                            className="icon" 
+                            onClick={showSettingForm}
+                            src={cancel}
+                            alt="cancel" />
+                    </div>
+                    :
+                    <div className="grid100">
                             <img 
                                 className="icon" 
                                 onClick={showSettingForm}
-                                src={cancel}
-                                alt="cancel" />
-                        </div>
-                        :
-                        <div className="grid100 inner-border-right">
-                                <img 
-                                    className="icon" 
-                                    onClick={showSettingForm}
-                                    src={edit}
-                                    alt="edit" />
-                        </div>
-                    }
-                </div>
-                :
-                null
-            }
+                                src={edit}
+                                alt="edit" />
+                    </div>
+                }
+            </div>
         </div>
     )
 }
