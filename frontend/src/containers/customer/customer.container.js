@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { fetchCustomers } from '../../reducers/customer/customer.actions';
+import { fetchCustomerGroups, fetchCustomers } from '../../reducers/customer/customer.actions';
 import CustomerNew from '../../components/customer/customer-new';
 import Customers from '../../components/customer/customers';
 
@@ -10,10 +10,12 @@ import "../customer/customer.styles.scss";
 const CustomerContainer = (props) => {
     const [addMode, setAddMode] = useState(false);
     const fetchCustomers = props.fetchCustomers;
+    const fetchCustomerGroups = props.fetchCustomerGroups;
 
     useEffect(() => {
         fetchCustomers();
-    }, [fetchCustomers]);
+        fetchCustomerGroups();
+    }, [fetchCustomers, fetchCustomerGroups]);
 
 
     const showCustomerForm = () => {
@@ -26,13 +28,15 @@ const CustomerContainer = (props) => {
             <div className="grid100">
                 <CustomerNew
                     addMode={addMode}
-                    callback={showCustomerForm} />
+                    callback={showCustomerForm}
+                    customerGroups={props.customerGroups} />
             </div>
             <br />
             {props.customers ?
                 <Customers
                     action={showCustomerForm}
-                    customers={props.customers} />
+                    customers={props.customers}
+                    customerGroups={props.customerGroups} />
                 :
                 null
             }
@@ -42,12 +46,14 @@ const CustomerContainer = (props) => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        fetchCustomers: () => dispatch(fetchCustomers())
+        fetchCustomers: () => dispatch(fetchCustomers()),
+        fetchCustomerGroups: () => dispatch(fetchCustomerGroups())
     }
 }
 
 const mapStateToProps = state => ({
-    customers: state.customer.customers
+    customers: state.customer.customers,
+    customerGroups: state.customer.customerGroups
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CustomerContainer);

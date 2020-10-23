@@ -17,6 +17,16 @@ export function fetchCustomers() {
 }
 //Gets all customers for a given date range
 
+export function fetchCustomerGroups() {
+    return dispatch => {
+        http.fetchAll("customer/group")
+            .then((customers) => {
+                dispatch(setCustomerGroups(customers));
+            });
+    }
+}
+//Gets all customers for a given date range
+
 export function addCustomer(customer, callback) {
     customer = prepCustomerValues(customer);
     return dispatch => {
@@ -65,6 +75,14 @@ export function addOrUpdateCustomerInState(customer) {
 export function setCustomers(customers) {
     return {
         type: CustomerActionTypes.SET_CUSTOMERS,
+        payload: customers
+    }
+}
+//Sets all customers in state
+
+export function setCustomerGroups(customers) {
+    return {
+        type: CustomerActionTypes.SET_CUSTOMER_GROUPS,
         payload: customers
     }
 }

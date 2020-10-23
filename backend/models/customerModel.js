@@ -12,7 +12,8 @@ const customerModel = new Schema(
         state: { type: String },
         zipCode: { type: String },
         defaultPhone: { type: String },
-        defaultEmail: { type: String }
+        defaultEmail: { type: String },
+        isGroup: { type: Boolean, required: true }
     }
 );
 

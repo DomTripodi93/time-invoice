@@ -1,5 +1,5 @@
 const autoMapper = require("../middleware/autoMapper");
-const dateRegulator = require("../middleware/dateRegulator");
+
 
 function CustomerController(Customer) {
 
@@ -30,18 +30,33 @@ function CustomerController(Customer) {
     };
 
 
+    async function getGroups(req, res) {
+        let query = {
+            userId: req.userId,
+            isGroup: true
+        }
+        Customer.find(query)
+            .then(results => {
+                return res.json(results);
+            })
+            .catch(err => {
+                res.json(err);
+            });
+    };
+
+
     function put(req, res) {
         const query = {
             userId: req.userId,
             _id: req.params._id
         }
-        Customer.findOne(query, (err, clockItem) => {
+        Customer.findOne(query, (err, customer) => {
             if (err) {
                 return res.send(err);
             }
-            let customerForUpdate = clockItem.toObject();
-            customerForUpdate = autoMapper(clockItemForUpdate, req.body);
-            ClockItem.updateOne(query, customerForUpdate)
+            let customerForUpdate = customer.toObject();
+            customerForUpdate = autoMapper(customerForUpdate, req.body);
+            Customer.updateOne(query, customerForUpdate)
                 .then(result => {
                     if (result.nModified > 0) {
                         return res.status(200).json(customerForUpdate);
@@ -68,7 +83,7 @@ function CustomerController(Customer) {
         );
     }
 
-    return { post, getAll, put, deleteCustomer }
+    return { post, getAll, getGroups, put, deleteCustomer }
 }
 
 module.exports = CustomerController;

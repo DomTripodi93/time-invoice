@@ -11,6 +11,7 @@ const CustomerNew = (props) => {
                     <div className='border'>
                         <CustomerForm
                             callback={props.callback}
+                            customerGroups={props.customerGroups}
                             editMode={false} />
                     </div>
                     <br />

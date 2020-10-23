@@ -1,7 +1,8 @@
 import CustomerActionTypes from './customer.types';
 
 const INITIAL_STATE = {
-    customers: []
+    customers: [],
+    customerGroups: []
 }
 
 const customerReducer = (state = INITIAL_STATE, action) => {
@@ -11,6 +12,11 @@ const customerReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 customers: action.payload.data
+            };
+        case CustomerActionTypes.SET_CUSTOMER_GROUPS:
+            return {
+                ...state,
+                customerGroups: action.payload.data
             };
         case CustomerActionTypes.ADD_OR_UPDATE_CUSTOMERS:
             customersHold = [

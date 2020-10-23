@@ -4,10 +4,8 @@ import { deleteCustomer } from '../../reducers/customer/customer.actions';
 import { connect } from 'react-redux';
 import edit from '../../shared/assets/Edit.png';
 import trash from '../../shared/assets/Trash.png';
-import helpers from '../../shared/helpers';
 
 const SingleCustomer = props => {
-    const helper = new helpers()
     const [editMode, updateEditMode] = useState(false);
     const setEditMode = () => {
         updateEditMode(!editMode)
@@ -29,7 +27,7 @@ const SingleCustomer = props => {
                 <div className='customer-grid grid-line'>
                     <div className="inner-border-left">
                         {props.customer.companyName ?
-                            <h5>{props.customer.companyName}</h5>
+                            <h5 className="company-name">{props.customer.companyName}</h5>
                             :
                             null
                         }
@@ -68,7 +66,8 @@ const SingleCustomer = props => {
                 <CustomerForm
                     editMode={true}
                     customerInput={props.customer}
-                    callback={setEditMode} />
+                    callback={setEditMode}
+                    customerGroups={props.customerGroups} />
             }
         </div>
     )

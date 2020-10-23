@@ -27,7 +27,8 @@ const Customers = props => {
                             <div key={customer._id}>
                                 <Customer
                                     action={props.showCustomerForm}
-                                    customer={customer} />
+                                    customer={customer}
+                                    customerGroups={props.customerGroups} />
                             </div>
                         ))}
                     </div>

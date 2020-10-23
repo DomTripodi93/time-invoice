@@ -11,6 +11,9 @@ function routes(Customer){
         .post(checkAuth, controller.post)
         .get(checkAuth, controller.getAll);
 
+    router.route("/group")
+        .get(checkAuth, controller.getGroups);
+
     router.route("/:_id")
         .put(checkAuth, controller.put)
         .delete(checkAuth, controller.deleteCustomer);

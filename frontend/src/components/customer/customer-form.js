@@ -1,13 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { connect } from 'react-redux';
 import { addCustomer, updateCustomer } from '../../reducers/customer/customer.actions';
 import CustomButton from '../../shared/elements/button/custom-button.component';
 import FormInput from '../../shared/elements/form-input/form-input.component';
-import helpers from '../../shared/helpers';
+import FormSelect from '../../shared/elements/form-select/form-select.component';
 
 
 const CustomerForm = props => {
-    const helper = new helpers();
+    const editMode = props.editMode;
+    const customerInput = props.customerInput;
     const [customerInfo, setCustomerInfo] = useState({
         companyName: "",
         group: "",
@@ -16,27 +17,61 @@ const CustomerForm = props => {
         state: "",
         zipCode: "",
         defaultPhone: "",
-        defaultEmail: ""
+        defaultEmail: "",
+        isGroup: false
     });
 
+    const [groupOptions, setGroupOptions] = useState([{ value: null, label: "None" }])
+
+    const isGroupOptions = [
+        {
+            value: true,
+            label: "True"
+        },
+        {
+            value: false,
+            label: "False"
+        }
+    ];
+    
+    const setUpGroupOptions = useCallback(() => {
+        if (props.editMode){
+            props.customerGroups.forEach(group => {
+                if (group.companyName != props.customerInput.companyName){
+                    setGroupOptions((groups => { return [...groups, { 
+                        value: group.companyName, label: group.companyName
+                    }]}))
+                }
+            })
+        } else {
+            props.customerGroups.forEach(group => {
+                setGroupOptions((groups => { return [...groups, { 
+                    value: group.companyName, label: group.companyName
+                }]}))
+            })
+        }
+    },[props])
 
     useEffect(() => {
-        if (props.editMode) {
+        if (editMode) {
             setCustomerInfo({
-                ...props.customerInput
+                ...customerInput
             });
         }
-    }, [props, helper])
+        setUpGroupOptions();
+    }, [editMode, customerInput, setUpGroupOptions])
 
-    const { 
-        companyName, 
+
+    const {
+        companyName,
         group,
         pointOfContact,
         address,
         state,
         zipCode,
         defaultPhone,
-        defaultEmail
+        defaultEmail,
+        isGroup
     } = customerInfo;
 
     const handleSubmit = async event => {
@@ -66,7 +101,7 @@ const CustomerForm = props => {
                 </h3>
                 :
                 <h3 className='centered'>
-                    {props.customerInput.customer} - {helper.dateForDisplay(props.customerInput.startTime)}
+                    {props.customerInput.companyName}
                 </h3>
             }
             <form onSubmit={handleSubmit}>
@@ -78,11 +113,11 @@ const CustomerForm = props => {
                     onChange={handleChange}
                     required
                 />
-                <FormInput
+                <FormSelect
                     label='Group'
-                    type='text'
                     name='group'
                     value={group}
+                    options={groupOptions}
                     onChange={handleChange}
                 />
                 <FormInput
@@ -128,6 +163,13 @@ const CustomerForm = props => {
                     type='text'
                     name='defaultEmail'
                     value={defaultEmail}
+                    onChange={handleChange}
+                />
+                <FormSelect
+                    label='Is a Group'
+                    name='isGroup'
+                    value={isGroup}
+                    options={isGroupOptions}
                     onChange={handleChange}
                 />
                 <div className="grid50">
