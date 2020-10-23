@@ -1,0 +1,94 @@
+h4 {
+    font-size: 16px;
+}
+
+h5{
+    font-size: 14px;
+    @media only screen and (max-width: 700px) {
+        font-size: 12px;
+    }
+}
+
+.date-form{
+    max-width: 450px;
+    margin-left: auto;
+}
+
+.date-range{
+    margin-bottom: 0;
+    margin-top: 23px;
+    @media only screen and (max-width: 1000px) {
+        margin-top: 17px;
+    }
+    @media only screen and (max-width: 700px) {
+        margin-top: 9px;
+    }
+}
+
+.customer-grid {
+    display: grid;
+    grid-template-columns: 19% 20% 20% 32% 11%;
+}
+
+
+.grid-line {
+    margin-top: none;
+    margin-bottom: none;
+    margin-right: 1%;
+    margin-left: 1%;
+    @media only screen and (max-width: 570px) {
+        margin-left: none;
+        margin-right: none;
+    }
+}
+
+.inner-border-left {
+    height: 100%;
+    width: 100%;
+    border-style: solid hidden solid solid;
+    border-color: black;
+    background-color: rgb(255, 255, 255);
+    border-width: 2px;
+    text-align: center;
+    overflow: hidden;
+}
+
+.inner-border-right {
+    height: 100%;
+    width: 100%;
+    border-style: solid solid solid solid;
+    border-color: black;
+    background-color: rgb(255, 255, 255);
+    border-width: 2px;
+    text-align: center;
+    overflow: hidden;
+}
+
+.inner-border-left-header {
+    height: 100%;
+    width: 100%;
+    border-style: solid hidden solid solid;
+    border-color: black;
+    background-color: rgb(235, 206, 255);
+    border-width: 2px;
+    text-align: center;
+}
+
+.inner-border-right-header {
+    height: 100%;
+    width: 100%;
+    border-style: solid;
+    border-color: black;
+    background-color: rgb(235, 206, 255);
+    border-width: 2px;
+    text-align: center;
+}
+
+.grid-header-text {
+    line-height: 0;
+    font-size: 14px;
+
+    @media only screen and (max-width: 570px) {
+        font-size: 12px;
+    }
+}

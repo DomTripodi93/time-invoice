@@ -17,6 +17,7 @@ const Signout = lazy(() => import('./containers/registration/signout'));
 const CalendarContainer = lazy(() => import('./containers/calendar/calendar.container'));
 const ClockItemContainer = lazy(() => import('./containers/clock-item/clockItem.container'));
 const SettingsContainer = lazy(() => import('./containers/settings/settings.container'));
+const CustomerContainer = lazy(() => import('./containers/customer/customer.container'));
 
 
 const App = (props) => {
@@ -42,6 +43,7 @@ const App = (props) => {
             <Route exact path='/calendar' component={CalendarContainer} />
             <Route exact path='/invoice' component={InvoiceContainer} />
             <Route exact path='/settings' component={SettingsContainer} />
+            <Route exact path='/customer' component={CustomerContainer} />
             <Route exact path='/signout' component={Signout} />
           </Switch>
         </Suspense>

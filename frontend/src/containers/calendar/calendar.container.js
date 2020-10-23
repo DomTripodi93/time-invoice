@@ -3,7 +3,7 @@ import CalendarNew from '../../components/calendar/calendar-new';
 import Calendar from '../../components/calendar/calendar';
 
 
-const CalendarContainer = props => {
+const CalendarContainer = (props) => {
     const date = new Date();
     const thisMonth = date.getMonth();
     const [month, setMonth] = useState(thisMonth);

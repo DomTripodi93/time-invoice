@@ -4,7 +4,7 @@ import Invoice from './invoice';
 const Invoices = props => {
     return (
         <div>
-            {Object.keys(props.invoices).length > 0 ?
+            {props.invoices.length > 0 ?
                 <div>
                     <div className='invoice-grid grid-line'>
                         <div className="inner-border-left-header">

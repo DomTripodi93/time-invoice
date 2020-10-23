@@ -69,7 +69,7 @@ const InvoiceForm = props => {
         <div className='middle'>
             {!props.editMode ?
                 <h3 className='centered'>
-                    Fill out the form below to add a Time
+                    Fill out the form below to add an Invoice
                 </h3>
                 :
                 <h3 className='centered'>

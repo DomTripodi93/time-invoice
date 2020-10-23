@@ -6,6 +6,7 @@ class helpers {
     }
 
     capitalizeAll(string) {
+        console.log(string)
         let words = string.split(" ");
         for (let i = 0; i < words.length; i++) {
             words[i] = this.capitalize(words[i]);

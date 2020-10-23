@@ -1,4 +1,4 @@
-import CustomerActionTypes from './clock-item.types';
+import CustomerActionTypes from './customer.types';
 
 const INITIAL_STATE = {
     customers: []

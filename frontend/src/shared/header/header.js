@@ -28,6 +28,9 @@ const Header = props => {
                         <Link to='/invoice' className='route'>
                             Invoice
                         </Link>
+                        <Link to='/customer' className='route'>
+                            Customers
+                        </Link>
                         <Link to='/calendar' className='route'>
                             Calendar
                         </Link>

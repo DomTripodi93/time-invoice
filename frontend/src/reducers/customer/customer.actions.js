@@ -80,7 +80,7 @@ export function deleteCustomerFromState(id) {
 
 function prepCustomerValues(customer) {
     customer.companyName = helper.capitalizeAll(customer.companyName);
-    customer.defaultPointOfContact = helper.capitalizeAll(customer.defaultPointOfContact);
+    customer.pointOfContact = helper.capitalizeAll(customer.pointOfContact);
     customer.address = helper.capitalizeAll(customer.address);
     customer.state = helper.capitalizeAll(customer.state);
     return customer;
