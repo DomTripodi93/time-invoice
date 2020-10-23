@@ -14,6 +14,7 @@ const clockItemRoutes = require("./routes/clockItemRoutes")(ClockItem);
 const Invoice = require("./models/invoiceModel");
 const invoiceRoutes = require("./routes/invoiceRoutes")(Invoice, ClockItem);
 const Customer = require("./models/customerModel");
+const customerRoutes = require("./routes/customerRoutes")(Customer);
 
 const app = express();
 
@@ -59,6 +60,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/settings", settingsRoutes);
 app.use("/api/clockItem", clockItemRoutes);
 app.use("/api/invoice", invoiceRoutes);
+app.use("/api/customer", customerRoutes);
 
 
 module.exports = app;

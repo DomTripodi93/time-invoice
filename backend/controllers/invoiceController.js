@@ -121,7 +121,7 @@ function InvoiceController(Invoice, ClockItem) {
                         return res.status(500).json({ message: "No Changes" });
                     }
                 })
-                .catch(err=>{
+                .catch(err => {
                     res.json(err);
                 });
         });
@@ -131,25 +131,25 @@ function InvoiceController(Invoice, ClockItem) {
         const invoiceQuery = {
             _id: req.params._id
         }
-        Invoice.findOne(invoiceQuery, (err, invoice) =>{
+        Invoice.findOne(invoiceQuery, (err, invoice) => {
             const clockItemsQuery = {
                 userId: req.userId,
                 invoiceNumber: invoice.invoiceNumber
             }
-            ClockItem.find(clockItemsQuery, (err, clockItems) =>{
-                if (clockItems.length > 0){
+            ClockItem.find(clockItemsQuery, (err, clockItems) => {
+                if (clockItems.length > 0) {
                     return setClockItemsNotInvoiced(clockItems, invoiceQuery, res);
                 } else {
                     return removeInvoice(invoiceQuery, res);
                 }
             })
-            .catch(err=>{
-                res.json(err);
-            });
+                .catch(err => {
+                    res.json(err);
+                });
         })
     }
 
-    function setClockItemsNotInvoiced (clockItems, invoiceQuery, res) {
+    function setClockItemsNotInvoiced(clockItems, invoiceQuery, res) {
         let processed = 0;
         clockItems.forEach(clockItem => {
             processed++;

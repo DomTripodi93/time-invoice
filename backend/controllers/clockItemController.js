@@ -29,34 +29,34 @@ function ClockItemController(ClockItem) {
     function getResultsForPeriod(query) {
         return new Promise((resolve, reject) => {
             ClockItem.find(query)
-                .sort({startTime: 1})
+                .sort({ startTime: 1 })
                 .exec((err, clockItems) => {
-                if (err) {
-                    return reject(err);
-                }
-                resolve(clockItems);
-            });
+                    if (err) {
+                        return reject(err);
+                    }
+                    resolve(clockItems);
+                });
         })
     }
 
     async function getByPeriod(req, res) {
-        let stopDate =  new Date(req.params.endDate);
+        let stopDate = new Date(req.params.endDate);
         const results = {};
         for (
-            let currentDate = new Date(req.params.startDate); 
-            currentDate <= stopDate; 
+            let currentDate = new Date(req.params.startDate);
+            currentDate <= stopDate;
             currentDate.setDate(currentDate.getDate() + 1)
-        ){
+        ) {
             let dateString = new Date(currentDate).toJSON().split('T')[0]
             let query = {
                 userId: req.userId,
                 startTime: getDayRange(dateString)
             }
             await getResultsForPeriod(query)
-                .then(result=>{
+                .then(result => {
                     results[dateString] = result;
                 })
-                .catch(err=>{
+                .catch(err => {
                     res.json(err);
                 });
         }
@@ -64,13 +64,13 @@ function ClockItemController(ClockItem) {
     };
 
     async function getByPeriodAndInvoiced(req, res) {
-        let stopDate =  new Date(req.params.endDate);
+        let stopDate = new Date(req.params.endDate);
         const results = {};
         for (
-            let currentDate = new Date(req.params.startDate); 
-            currentDate <= stopDate; 
+            let currentDate = new Date(req.params.startDate);
+            currentDate <= stopDate;
             currentDate.setDate(currentDate.getDate() + 1)
-        ){
+        ) {
             let dateString = new Date(currentDate).toJSON().split('T')[0]
             let query = {
                 userId: req.userId,
@@ -78,10 +78,10 @@ function ClockItemController(ClockItem) {
                 invoiced: req.params.invoiced
             }
             await getResultsForPeriod(query)
-                .then(result=>{
+                .then(result => {
                     results[dateString] = result;
                 })
-                .catch(err=>{
+                .catch(err => {
                     res.json(err);
                 });
         }
