@@ -1,11 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
-import CustomButton from '../../shared/elements/button/custom-button.component';
-import { updateSettings } from '../../reducers/user/user.actions';
-import FormInput from '../../shared/elements/form-input/form-input.component';
-import save from '../../shared/assets/save.png';
-import cancel from '../../shared/assets/cancel.png';
-import edit from '../../shared/assets/Edit.png';
 import '../invoice/invoice.styles.scss';
 import SettingsItem from '../../components/settings/settingsItem';
 

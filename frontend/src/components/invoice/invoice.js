@@ -28,14 +28,14 @@ const SingleInvoice = props => {
             {!editMode ?
                 <div className='invoice-grid grid-line'>
                     <div className="inner-border-left">
-                        <h5>{helper.dateForDisplayWithDOW(props.invoice.date)}</h5>
-                    </div>
-                    <div className="inner-border-left">
                         {props.invoice.invoiceNumber ?
                             <h5>{props.invoice.invoiceNumber}</h5>
                             :
                             null
                         }
+                    </div>
+                    <div className="inner-border-left">
+                        <h5>{helper.dateForDisplayWithDOW(props.invoice.date)}</h5>
                     </div>
                     <div className="inner-border-left">
                         {props.invoice.customer ?

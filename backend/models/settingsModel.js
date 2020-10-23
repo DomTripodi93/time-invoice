@@ -12,7 +12,6 @@ const settingsModel = new Schema(
         address: { type: String },
         state: { type: String },
         county: { type: String },
-        zipCode: { type: String },
         defaultPhone: { type: String }
     }
 );

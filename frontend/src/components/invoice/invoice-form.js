@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { addInvoice, updateInvoice } from '../../reducers/invoice/invoice.actions';
+import { updateSettings } from '../../reducers/user/user.actions';
 import CustomButton from '../../shared/elements/button/custom-button.component';
 import FormInput from '../../shared/elements/form-input/form-input.component';
 import helpers from '../../shared/helpers';
@@ -9,7 +10,7 @@ import helpers from '../../shared/helpers';
 const InvoiceForm = props => {
     const helper = new helpers();
     const [invoiceInfo, setInvoiceInfo] = useState({
-        invoiceNumber: 1,
+        invoiceNumber: props.invoiceNumber,
         date: helper.getCurrentDate(),
         customer: "",
         hours: 0,
@@ -48,6 +49,7 @@ const InvoiceForm = props => {
             }
         } else {
             props.addInvoice(invoice, dateRage, props.callback);
+            props.updateSettings({lastInvoiceNumber: props.invoiceNumber})
         }
     };
 
@@ -137,7 +139,14 @@ const mapDispatchToProps = dispatch => ({
     },
     updateInvoice: (invoice, callback) => {
         dispatch(updateInvoice(invoice, callback))
+    },
+    updateSettings: (settings) => {
+        dispatch(updateSettings(settings))
     }
 });
 
-export default connect(null, mapDispatchToProps)(InvoiceForm);
+const mapStateToProps = state => ({
+    invoiceNumber: state.user.settings.lastInvoiceNumber + 1
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(InvoiceForm);

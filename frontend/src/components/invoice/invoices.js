@@ -8,10 +8,10 @@ const Invoices = props => {
                 <div>
                     <div className='invoice-grid grid-line'>
                         <div className="inner-border-left-header">
-                            <h5 className="grid-header-text">Date</h5>
+                            <h5 className="grid-header-text">Invoice</h5>
                         </div>
                         <div className="inner-border-left-header">
-                            <h5 className="grid-header-text">Invoice</h5>
+                            <h5 className="grid-header-text">Date</h5>
                         </div>
                         <div className="inner-border-left-header">
                             <h5 className="grid-header-text">Customer</h5>

@@ -77,7 +77,6 @@ function InvoiceController(Invoice, ClockItem) {
             invoiceNumber: req.params.invoiceNumber
         }
         Invoice.find(query)
-            .sort({ date: 1 })
             .exec((err, invoices) => {
                 if (err) {
                     return res.send(err);
@@ -94,7 +93,7 @@ function InvoiceController(Invoice, ClockItem) {
             date: getDateRange(startDate, endDate)
         }
         Invoice.find(query)
-            .sort({ date: 1 })
+            .sort({ invoiceNumber: -1 })
             .exec((err, invoices) => {
                 if (err) {
                     return res.send(err);

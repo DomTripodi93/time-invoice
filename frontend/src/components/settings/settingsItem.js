@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import CustomButton from '../../shared/elements/button/custom-button.component';
 import { updateSettings } from '../../reducers/user/user.actions';
 import FormInput from '../../shared/elements/form-input/form-input.component';
 import save from '../../shared/assets/save.png';
