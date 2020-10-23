@@ -1,0 +1,8 @@
+const CustomerActionTypes = {
+    SET_CUSTOMERS: 'SET_CUSTOMERS',
+    ADD_OR_UPDATE_CUSTOMERS: 'ADD_OR_UPDATE_CUSTOMERS',
+    DELETE_CUSTOMER: 'DELETE_CUSTOMER',
+    SIGNOUT_USER: 'SIGNOUT_USER'
+};
+
+export default CustomerActionTypes;

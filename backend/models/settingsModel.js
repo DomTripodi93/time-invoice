@@ -11,7 +11,6 @@ const settingsModel = new Schema(
         companyName: { type: String },
         address: { type: String },
         state: { type: String },
-        county: { type: String },
         defaultPhone: { type: String }
     }
 );
