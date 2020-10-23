@@ -6,9 +6,9 @@ const mongoose = require("mongoose");
 const env = require("./.env/env");
 
 const Settings = require('./models/settingsModel');
+const settingsRoutes = require("./routes/settingsRoutes")(Settings);
 const User = require("./models/userModel");
 const authRoutes = require("./routes/authRoutes")(User, Settings);
-const userRoutes = require("./routes/userRoutes")(User, Settings);
 const ClockItem = require("./models/clockItemModel");
 const clockItemRoutes = require("./routes/clockItemRoutes")(ClockItem);
 const Invoice = require("./models/invoiceModel");
@@ -56,7 +56,7 @@ app.use((req, res, next) => {
 
 app.use("/api/test", (req, res)=>{res.send({'response': {'body': "test successful"}})})
 app.use("/api/auth", authRoutes);
-app.use("/api/user", userRoutes);
+app.use("/api/settings", settingsRoutes);
 app.use("/api/clockItem", clockItemRoutes);
 app.use("/api/invoice", invoiceRoutes);
 

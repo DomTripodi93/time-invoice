@@ -47,7 +47,7 @@ export const signOutUser = (callback) => {
 
 export const checkUser = (id, token) => {
     return dispatch => {
-        http.fetchAll("user")
+        http.fetchAll("settings")
             .then((settings) => {
                 dispatch(
                     setUserData({
@@ -66,7 +66,7 @@ export const checkUser = (id, token) => {
 
 export const updateSettings = (settingsForUpdate) => {
     return dispatch => {
-        http.updateItemByUser("user", settingsForUpdate)
+        http.updateItemByUser("settings", settingsForUpdate)
             .then((settings) => {
                 dispatch(
                     updateSettingsInState(settings.data)

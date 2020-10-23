@@ -1,6 +1,6 @@
 const autoMapper = require("../middleware/autoMapper");
 
-function userController(User, Settings) {
+function settingsController(Settings) {
     function getUserData(req, res) {
         const query = {
             userId: req.userId
@@ -37,4 +37,4 @@ function userController(User, Settings) {
     return { getUserData, put }
 }
 
-module.exports = userController;
+module.exports = settingsController;

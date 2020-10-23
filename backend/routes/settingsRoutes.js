@@ -1,11 +1,11 @@
 const express = require("express");
+const settingsController = require("../controllers/settingsController");
 
-const userController = require("../controllers/userController");
 const checkAuth = require("../middleware/checkAuth");
 
-function routes(User, Settings){
+function routes(Settings){
     const router = express.Router();
-    const controller = userController(User, Settings);
+    const controller = settingsController(Settings);
 
     router.route("")
         .get(checkAuth, controller.getUserData)
