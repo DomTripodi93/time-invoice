@@ -31,10 +31,10 @@ export function addInvoice(invoice, dates, callback) {
 }
 //Posts new invoice to API
 
-export function updateInvoice(invoice, callback) {
+export function updateInvoice(invoice, dates, callback) {
     invoice = prepInvoiceValues(invoice);
     return dispatch => {
-        http.updateItemById("invoice", invoice, invoice._id)
+        http.updateItemById("invoice/" + dates.startDate + "/" + dates.endDate, invoice, invoice._id)
             .then((updatedInvoice) => {
                 dispatch(addOrUpdateInvoiceInState(updatedInvoice.data));
                 callback();
@@ -82,7 +82,7 @@ export function deleteInvoiceFromState(id) {
 //Deletes selected invoice in state
 
 function prepInvoiceValues(invoice) {
-    invoice.practice = helper.capitalizeAll(invoice.customer);
+    invoice.customer = helper.capitalizeAll(invoice.customer);
     return invoice;
 }
 

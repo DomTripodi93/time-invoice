@@ -33,7 +33,8 @@ const Invoices = props => {
                             <div key={invoice._id}>
                                 <Invoice
                                     action={props.showInvoiceForm}
-                                    invoice={invoice} />
+                                    invoice={invoice}
+                                    customers={props.customers} />
                             </div>
                         ))}
                     </div>

@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { connect } from 'react-redux';
 import { addInvoice, updateInvoice } from '../../reducers/invoice/invoice.actions';
 import { updateSettings } from '../../reducers/user/user.actions';
 import CustomButton from '../../shared/elements/button/custom-button.component';
 import FormInput from '../../shared/elements/form-input/form-input.component';
 import helpers from '../../shared/helpers';
+import FormSelect from '../../shared/elements/form-select/form-select.component';
 
 
 const InvoiceForm = props => {
@@ -23,33 +24,47 @@ const InvoiceForm = props => {
         endDate: helper.getCurrentDate()
     })
 
+    const [customerOptions, setCustomerOptions] = useState([{ value: "None", label: "None" }])
+
+    const setUpCustomerOptions = useCallback(() => {
+        props.customers.forEach(customer => {
+            setCustomerOptions((customers => {
+                return [...customers, {
+                    value: customer.companyName, label: customer.companyName
+                }]
+            }))
+        })
+    }, [props])
+
     useEffect(() => {
         if (props.editMode) {
             setInvoiceInfo({
                 ...props.invoiceInput,
-                date: props.invoiceInput.date.split('T')[0],
-                startTime: helper.timeFromDate(props.invoiceInput.startTime),
-                endTime: helper.timeFromDate(props.invoiceInput.endTime)
+                date: props.invoiceInput.date.split('T')[0]
             });
         }
-    }, [props, helper])
+    }, [props])
+
+    useEffect(() => {
+        setUpCustomerOptions();
+    }, [setUpCustomerOptions])
 
     const { date, customer } = invoiceInfo;
     const { startDate, endDate } = dateRage;
 
     const handleSubmit = async event => {
-        let invoice = {...invoiceInfo};
+        let invoice = { ...invoiceInfo };
         invoice.dateRange = helper.shortDate(dateRage.startDate) + " thru " + helper.shortDate(dateRage.endDate);
         event.preventDefault();
         if (props.editMode) {
             if (invoice !== props.invoice) {
-                props.updateInvoice(invoice, props.callback);
+                props.updateInvoice(invoice, dateRage, props.callback);
             } else {
                 props.callback();
             }
         } else {
             props.addInvoice(invoice, dateRage, props.callback);
-            props.updateSettings({lastInvoiceNumber: props.invoiceNumber})
+            props.updateSettings({ lastInvoiceNumber: props.invoiceNumber })
         }
     };
 
@@ -73,7 +88,7 @@ const InvoiceForm = props => {
                 </h3>
                 :
                 <h3 className='centered'>
-                    {props.invoiceInput.customer} - {helper.dateForDisplay(props.invoiceInput.startTime)}
+                    {props.invoiceInput.customer} - {props.invoiceInput.invoiceNumber}
                 </h3>
             }
             <form onSubmit={handleSubmit}>
@@ -99,10 +114,10 @@ const InvoiceForm = props => {
                     onChange={handleDateRangeChange}
                     required
                 />
-                <FormInput
+                <FormSelect
                     label='Customer'
-                    type='text'
                     name='customer'
+                    options={customerOptions}
                     value={customer}
                     onChange={handleInvoiceChange}
                     required

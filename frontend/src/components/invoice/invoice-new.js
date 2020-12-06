@@ -12,7 +12,8 @@ const InvoiceNew = (props) => {
                     <div className='border'>
                         <InvoiceForm
                             callback={props.addFormCallback}
-                            editMode={false} />
+                            editMode={false}
+                            customers={props.customers} />
                     </div>
                     <br />
                 </div>

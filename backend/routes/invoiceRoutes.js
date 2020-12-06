@@ -7,8 +7,14 @@ function routes(Invoice, ClockItem){
     const router = express.Router();
     const controller = InvoiceController(Invoice, ClockItem);
 
+    router.route("/:_id")
+        .delete(checkAuth, controller.deleteInvoice);
+
     router.route("/:startDate/:endDate")
         .post(checkAuth, controller.post)
+
+    router.route("/:startDate/:endDate/:_id")
+        .put(checkAuth, controller.put)
 
     router.route("/byNumber/:invoiceNumber")
         .get(checkAuth, controller.getByNumber);
@@ -16,9 +22,6 @@ function routes(Invoice, ClockItem){
     router.route("/byDateRange/:startDate/:endDate")
         .get(checkAuth, controller.getByPeriod);
     
-    router.route("/:_id")
-        .put(checkAuth, controller.put)
-        .delete(checkAuth, controller.deleteInvoice);
 
     return router;
 }

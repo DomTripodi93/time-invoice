@@ -22,7 +22,7 @@ const invoiceReducer = (state = INITIAL_STATE, action) => {
                             return value._id !== action.payload._id
                         })]
                     .sort((first, second) => {
-                        if (first.date < second.date) {
+                        if (first.invoiceNumber > second.invoiceNumber) {
                             return -1
                         } else {
                             return 1

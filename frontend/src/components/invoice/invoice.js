@@ -78,7 +78,8 @@ const SingleInvoice = props => {
                 <InvoiceForm
                     editMode={true}
                     invoiceInput={props.invoice}
-                    callback={setEditMode} />
+                    callback={setEditMode}
+                    customers={props.customers} />
             }
         </div>
     )

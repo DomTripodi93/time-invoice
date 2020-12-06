@@ -1,4 +1,5 @@
 const autoMapper = require("../middleware/autoMapper");
+var ObjectID = require('mongodb').ObjectID;
 
 function InvoiceController(Invoice, ClockItem) {
 
@@ -7,45 +8,51 @@ function InvoiceController(Invoice, ClockItem) {
         invoice.userId = req.userId;
         let clockItemsQuery = {
             userId: req.userId,
+            invoiced: false,
             startTime: getDateRange(req.params.startDate, req.params.endDate)
         }
         ClockItem.find(clockItemsQuery)
-            .exec((err, clockItems) => {
+            .exec(async (err, clockItems) => {
                 if (err) {
                     return res.send(err);
                 }
-                return setClockItemsInvoiced(clockItems, invoice, res, req);
+                if (clockItems.length > 0){
+                    await setClockItemsInvoiced(clockItems, invoice, res, req)
+                        .then(hours => {
+                            console.log(hours);
+                            addInvoice(invoice, hours, res)
+                        });
+                } else {
+                    addInvoice(invoice, 0, res)
+                }
             });
     };
 
-    function setClockItemsInvoiced(clockItems, invoice, res, req) {
-        let hours = 0
-        let processed = 0
-        let added = false;
-        clockItems.forEach(clockItem => {
-            processed++
-            let clockItemForUpdate = clockItem.toObject();
-            if (!clockItemForUpdate.invoiced) {
+    function setClockItemsInvoiced(clockItems, invoice, req) {
+        return new Promise((resolve, reject) => {
+            let hours = 0
+            let processed = 0
+            clockItems.forEach(clockItem => {
+                processed++
+                let clockItemForUpdate = clockItem.toObject();
+                console.log(clockItemForUpdate)
                 let updateQuery = {
                     userId: req.userId,
-                    _id: clockItemForUpdate._id
+                    _id: ObjectID(clockItemForUpdate._id)
                 }
                 clockItemForUpdate.invoiced = true;
                 hours += clockItemForUpdate.hours;
                 clockItemForUpdate.invoiceNumber = invoice.invoiceNumber;
+                console.log(clockItemForUpdate)
                 ClockItem.updateOne(updateQuery, clockItemForUpdate)
-                    .then(() => {
-                        if (processed === clockItems.length && !added) {
-                            added = true;
-                            return addInvoice(invoice, hours, res);
+                    .then((err) => {
+                        console.log(err)
+                        if (processed === clockItems.length) {
+                            resolve(hours)
                         }
                     });
-            } else {
-                if (processed === clockItems.length) {
-                    return addInvoice(invoice, hours, res);
-                }
-            }
-        });
+            });
+        })
     }
 
     function addInvoice(invoice, hours, res) {
@@ -77,6 +84,7 @@ function InvoiceController(Invoice, ClockItem) {
             invoiceNumber: req.params.invoiceNumber
         }
         Invoice.find(query)
+            .sort({ date: 1 })
             .exec((err, invoices) => {
                 if (err) {
                     return res.send(err);
@@ -121,7 +129,7 @@ function InvoiceController(Invoice, ClockItem) {
                         return res.status(500).json({ message: "No Changes" });
                     }
                 })
-                .catch(err => {
+                .catch(err=>{
                     res.json(err);
                 });
         });
@@ -131,25 +139,25 @@ function InvoiceController(Invoice, ClockItem) {
         const invoiceQuery = {
             _id: req.params._id
         }
-        Invoice.findOne(invoiceQuery, (err, invoice) => {
+        Invoice.findOne(invoiceQuery, (err, invoice) =>{
             const clockItemsQuery = {
                 userId: req.userId,
                 invoiceNumber: invoice.invoiceNumber
             }
-            ClockItem.find(clockItemsQuery, (err, clockItems) => {
-                if (clockItems.length > 0) {
+            ClockItem.find(clockItemsQuery, (err, clockItems) =>{
+                if (clockItems.length > 0){
                     return setClockItemsNotInvoiced(clockItems, invoiceQuery, res);
                 } else {
                     return removeInvoice(invoiceQuery, res);
                 }
             })
-                .catch(err => {
-                    res.json(err);
-                });
+            .catch(err=>{
+                res.json(err);
+            });
         })
     }
 
-    function setClockItemsNotInvoiced(clockItems, invoiceQuery, res) {
+    function setClockItemsNotInvoiced (clockItems, invoiceQuery, res) {
         let processed = 0;
         clockItems.forEach(clockItem => {
             processed++;
